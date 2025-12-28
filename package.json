@@ -26,8 +26,8 @@
     "wp-env": "wp-env",
     "wp-env:cli": "pnpm run wp-env run cli --env-cwd=wp-content/plugins/acf-frontend-forms",
     "wp-env:cli:tests": "pnpm run wp-env run tests-cli --env-cwd=wp-content/plugins/acf-frontend-forms",
-    "wp-env:open": "open http://localhost:222333",
-    "wp-env:open:tests": "open http://localhost:222334",
+    "wp-env:open": "open http://localhost:22333",
+    "wp-env:open:tests": "open http://localhost:22334",
     "test": "pnpm test:pest",
     "test:pest": "pnpm run wp-env:cli:tests vendor/bin/pest --no-coverage",
     "test:pest:ci": "pnpm run wp-env:cli:tests vendor/bin/pest --coverage-clover coverage.xml"

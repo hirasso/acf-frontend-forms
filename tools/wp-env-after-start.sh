@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-wp-env run cli wp theme activate twentytwentyfive
+pnpm run wp-env:cli wp theme activate twentytwentyfive
+pnpm run wp-env:cli:tests wp theme activate twentytwentyfive

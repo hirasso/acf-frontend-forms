@@ -9,13 +9,13 @@
   "phpVersion": "8.3",
   "env": {
     "development": {
-      "port": 22233,
-      "themes": ["./vendor/.wp/themes/twentytwentyfive"]
+      "port": 22333
     },
     "tests": {
-      "port": 22234
+      "port": 22334
     }
   },
+  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
   "lifecycleScripts": {
     "afterStart": "./tools/wp-env-after-start.sh"
   }
