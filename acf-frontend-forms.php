@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: RH ACF Frontend Forms
- * Version: 4.2.2
+ * Plugin Name: ACF Frontend Forms
+ * Version: 0.0.0
  * Author: Rasso Hilber
  * Description: Frontend forms for Advanced Custom Fields
  * Author URI: https://rassohilber.com
@@ -14,7 +14,7 @@
 use Hirasso\ACFFF\ACFFF;
 
 /** Exit if accessed directly */
-if (! defined('ABSPATH')) {
+if (! \defined('ABSPATH')) {
     exit;
 }
 
@@ -29,7 +29,7 @@ require_once match(\is_readable(__DIR__ . '/vendor/autoload.php')) {
 };
 
 
-define('ACFFF_ROOT', __FILE__);
+\define('ACFFF_ROOT', __FILE__);
 
 /**
  * API Access to ACFFF Singleton Instance
@@ -46,4 +46,4 @@ function acfff(): ACFFF
     return $instance;
 }
 
-acfff();
+\add_action('plugins_loaded', 'acfff');

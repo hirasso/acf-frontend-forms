@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "core": "./vendor/.wp/core",
+  "plugins": [
+    ".",
+    "./vendor/.wp/plugins/advanced-custom-fields",
+    "./vendor/.wp/plugins/classic-editor"
+  ],
+  "phpVersion": "8.3",
+  "env": {
+    "development": {
+      "port": 22233,
+      "themes": ["./vendor/.wp/themes/twentytwentyfive"]
+    },
+    "tests": {
+      "port": 22234
+    }
+  },
+  "lifecycleScripts": {
+    "afterStart": "./tools/wp-env-after-start.sh"
+  }
+}

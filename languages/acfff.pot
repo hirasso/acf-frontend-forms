@@ -1,0 +1,63 @@
+# Copyright (C) 2025 Rasso Hilber
+# This file is distributed under the GPL-3.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: ACF Frontend Forms 0.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/hirasso/acf-frontend-forms/\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: acfff\n"
+
+#. Plugin Name of the plugin
+#: acf-frontend-forms.php
+msgid "ACF Frontend Forms"
+msgstr ""
+
+#. Description of the plugin
+#: acf-frontend-forms.php
+msgid "Frontend forms for Advanced Custom Fields"
+msgstr ""
+
+#. Author of the plugin
+#: acf-frontend-forms.php
+msgid "Rasso Hilber"
+msgstr ""
+
+#. Author URI of the plugin
+#: acf-frontend-forms.php
+msgid "https://rassohilber.com"
+msgstr ""
+
+#: src/ACFFF.php:254
+msgid "Something went wrong, please reload the page and try again"
+msgstr ""
+
+#: src/ACFFF.php:280
+msgid "Please fill out this field"
+msgstr ""
+
+#: src/ACFFF.php:281
+msgid "Please select an option"
+msgstr ""
+
+#: src/ACFFF.php:282
+msgid "Please add an image"
+msgstr ""
+
+#: src/ACFFF.php:283
+msgid "Please add a file"
+msgstr ""
+
+#: src/ACFFF.php:815
+msgid "Something went wrong. If the issue persists, please contact the site site administrator."
+msgstr ""
+
+#: src/Form/Form.php:131
+msgid "remaining"
+msgstr ""

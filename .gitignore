@@ -1,7 +1,11 @@
 .DS_Store
+
 npm-debug.log
+package.lock
 node_modules
-.cache
-*.css.map
-*.js.map
-/vendor/
+
+*.map
+
+.phpunit.result.cache
+
+vendor

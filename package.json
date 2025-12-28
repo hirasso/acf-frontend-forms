@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky",
+    "make-pot": "tools/make-pot.sh",
     "mkdirs": "mkdir -p assets",
     "build:js": "esbuild assets-src/*.ts --outdir=assets --sourcemap --target=es2017 --bundle",
     "watch:js": "pnpm build:js --watch",
@@ -21,7 +22,15 @@
     "analyse": "pnpm analyse:js && pnpm analyse:php",
     "analyse:js": "pnpm exec tsc --noEmit --project tsconfig.json",
     "analyse:php": "./vendor/bin/phpstan analyse --memory-limit=2G",
-    "version": "pnpm changeset version && bin/cli.js version:patch"
+    "version": "pnpm changeset version && bin/cli.js version:patch",
+    "wp-env": "wp-env",
+    "wp-env:cli": "pnpm run wp-env run cli --env-cwd=wp-content/plugins/acf-frontend-forms",
+    "wp-env:cli:tests": "pnpm run wp-env run tests-cli --env-cwd=wp-content/plugins/acf-frontend-forms",
+    "wp-env:open": "open http://localhost:222333",
+    "wp-env:open:tests": "open http://localhost:222334",
+    "test": "pnpm test:pest",
+    "test:pest": "pnpm run wp-env:cli:tests vendor/bin/pest --no-coverage",
+    "test:pest:ci": "pnpm run wp-env:cli:tests vendor/bin/pest --coverage-clover coverage.xml"
   },
   "dependencies": {
     "autosize": "^4.0.2",
@@ -33,6 +42,7 @@
     "@types/autosize": "^4.0.3",
     "@types/feather-icons": "^4.29.4",
     "@types/jquery": "^3.5.33",
+    "@wordpress/env": "^10.37.0",
     "caniuse-lite": "^1.0.30001578",
     "esbuild": "^0.27.2",
     "fast-glob": "^3.3.3",

@@ -5,10 +5,11 @@ parameters:
   paths:
     - acf-frontend-forms.php
     - src/
+    - autoload.dist.php
+    - tests
 
   scanDirectories:
-    - vendor/.wp/core
-    - vendor/.wp/plugins/advanced-custom-fields
-    - vendor/wp-cli/wp-cli
+    - vendor
+    - vendor/.wp
 
   ignoreErrors:

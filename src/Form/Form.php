@@ -28,7 +28,7 @@ final class Form
      */
     public function ajax(bool|AjaxOptions|null $value = true): self
     {
-        $this->jsOptions->ajax = is_bool($value)
+        $this->jsOptions->ajax = \is_bool($value)
             ? new AjaxOptions(enabled: $value)
             : $value;
 
@@ -57,11 +57,11 @@ final class Form
     public function render(): ?string
     {
         /** Buffer the acf_form() */
-        ob_start();
+        \ob_start();
         $this->add_hooks();
-        acf_form($this->args);
+        \acf_form($this->args);
         $this->remove_hooks();
-        $vanilla_acf_form = trim(ob_get_clean() ?: '');
+        $vanilla_acf_form = \trim(\ob_get_clean() ?: '');
 
         /** return null if acf_form didn't return anything */
         if (empty($vanilla_acf_form)) {
@@ -69,10 +69,10 @@ final class Form
         }
 
         /** Convert the options to JSON */
-        $jsOptionsJson = json_encode($this->jsOptions, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        $jsOptionsJson = \json_encode($this->jsOptions, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 
         /** Construct the final body */
-        $body = implode("\n", [
+        $body = \implode("\n", [
             "<script data-acfff-options type='application/json'>$jsOptionsJson</script>",
             $vanilla_acf_form
         ]);
@@ -84,16 +84,16 @@ final class Form
 
     protected function add_hooks(): void
     {
-        add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
-        add_filter('acf/render_field/type=text', [$this, 'render_max_length_info']);
-        add_filter('acf/render_field/type=textarea', [$this, 'render_max_length_info']);
+        \add_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
+        \add_filter('acf/render_field/type=text', [$this, 'render_max_length_info']);
+        \add_filter('acf/render_field/type=textarea', [$this, 'render_max_length_info']);
     }
 
     protected function remove_hooks(): void
     {
-        remove_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
-        remove_filter('acf/render_field/type=text', [$this, 'render_max_length_info']);
-        remove_filter('acf/render_field/type=textarea', [$this, 'render_max_length_info']);
+        \remove_filter('acf/prepare_field/type=image', [$this, 'prepare_image_field']);
+        \remove_filter('acf/render_field/type=text', [$this, 'render_max_length_info']);
+        \remove_filter('acf/render_field/type=textarea', [$this, 'render_max_length_info']);
     }
 
     /**
@@ -121,16 +121,26 @@ final class Form
             return;
         }
 
-        if (!$maxlength = intval($field['maxlength'] ?? 0)) {
+        if (!$maxlength = \intval($field['maxlength'] ?? 0)) {
             return;
         }
 
-        ob_start(); ?>
+        \ob_start(); ?>
         <acfff-maxlength-info value="<?= $maxlength ?>">
-            <acfff-maxlength-remaining inline><?= $maxlength ?></acfff-maxlength-remaining>
-            <?= __('remaining', 'acfff')  ?>
+
+            <?php
+                /* translators: 1: The amount of characters remaining if a field has a max length */
+                \sprintf(
+                    \__('%s remaining', 'acfff'),
+                    \sprintf(
+                        "<acfff-maxlength-remaining inline>%s</acfff-maxlength-remaining>",
+                        \esc_html((string) $maxlength)
+                    )
+                );
+        ?>
         </acfff-maxlength-info>
-        <?php echo ob_get_clean();
+
+        <?php echo \ob_get_clean();
     }
 
 }
