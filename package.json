@@ -1,0 +1,48 @@
+{
+  "name": "acf-frontend-forms",
+  "version": "0.0.0",
+  "author": "Rasso Hilber",
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "description": "Frontend forms for Advanced Custom Fields",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "mkdirs": "mkdir -p assets",
+    "build:js": "esbuild assets-src/*.ts --outdir=assets --sourcemap --target=es2017 --bundle",
+    "watch:js": "pnpm build:js --watch",
+    "watch": "pnpm mkdirs; pnpm watch:js",
+    "build:css": "postcss assets/*.css --replace",
+    "build": "pnpm build:js; pnpm build:css",
+    "format": "pnpm format:assets && pnpm format:php",
+    "format:assets": "npx prettier --write '**/*.{js,css}'",
+    "format:php": "./vendor/bin/pint",
+    "analyse": "pnpm analyse:js && pnpm analyse:php",
+    "analyse:js": "pnpm exec tsc --noEmit --project tsconfig.json",
+    "analyse:php": "./vendor/bin/phpstan analyse --memory-limit=2G",
+    "version": "pnpm changeset version && bin/cli.js version:patch"
+  },
+  "dependencies": {
+    "autosize": "^4.0.2",
+    "es-toolkit": "^1.43.0",
+    "feather-icons": "^4.28.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.8",
+    "@types/autosize": "^4.0.3",
+    "@types/feather-icons": "^4.29.4",
+    "@types/jquery": "^3.5.33",
+    "caniuse-lite": "^1.0.30001578",
+    "esbuild": "^0.27.2",
+    "fast-glob": "^3.3.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "picocolors": "^1.1.1",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-preset-env": "^10.5.0",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3"
+  }
+}

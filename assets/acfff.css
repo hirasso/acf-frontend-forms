@@ -1,0 +1,164 @@
+/* assets-src/css/inc/vars.css */
+:root {
+  --acfff-black: #000;
+  --acfff-white: #fff;
+  --acfff-red: hsla(10, 100%, 55%, 1);
+  --acfff-green: hsla(139, 100%, 42%, 1);
+  --acfff-blue: hsla(200, 100%, 50%, 1);
+}
+
+/* assets-src/css/inc/dropzone.css */
+.acfff-dropzone {
+  position: relative;
+}
+.acfff-dropzone .acf-image-uploader.is-dragover:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+.acfff-dropzone .acf-image-uploader {
+  position: relative;
+  height: 0;
+  padding-bottom: 63%;
+}
+.acfff-dropzone .acfff-instructions {
+  position: absolute !important;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.acfff-dropzone .acfff-instructions__body {
+  color: rgba(0, 0, 0, 0.5);
+}
+.acfff-dropzone .acf-label .description {
+  text-transform: none;
+  margin: 0;
+}
+.acfff-dropzone:not(.has-value) .show-if-value {
+  display: none;
+}
+.acfff-dropzone .image-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  background-position: center;
+  z-index: 2;
+  max-width: none !important;
+}
+.acfff-dropzone .image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.acfff-dropzone .acf-actions {
+  display: block;
+  pointer-events: all;
+}
+.acfff-dropzone [data-name=remove] {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none !important;
+  transform: translate3d(50%, -50%, 0);
+}
+.acfff-dropzone [data-name=remove] svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate3d(-50%, -50%, 0);
+  fill: var(--acfff-white);
+  stroke-width: 1.5px;
+}
+.acfff-dropzone input[type=file] {
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+/* assets-src/css/inc/error-message.css */
+:where(acf-frontend-form) {
+  .acf-error-message.-dismiss {
+    display: none;
+  }
+  .acf-temp-remove {
+    display: none;
+  }
+  .acf-error-message p {
+    background: var(--acfff-red);
+    margin: 0;
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
+    padding: 0.55em 0.7em 0.55em;
+    color: var(--acfff-white);
+  }
+  .acf-input .acf-error-message {
+    display: block;
+    pointer-events: none;
+    z-index: 4;
+    margin-bottom: 0.5em;
+  }
+  .acf-input .acf-error-message:after {
+    content: "";
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    background: var(--acfff-red);
+    transform: rotate(-45deg);
+    margin-top: -0.3em;
+    margin-left: 1.5em;
+  }
+}
+
+/* assets-src/css/acfff.css */
+:where(acf-frontend-form *:not([inline]):not(:defined)) {
+  display: block;
+}
+:where(acf-frontend-form) {
+  .acf-input {
+    position: relative;
+  }
+  .acfff\:locked {
+    pointer-events: none;
+  }
+  .acf-field textarea {
+    resize: none;
+  }
+  .acf-ajax-response {
+    background: var(--acfff-green);
+  }
+  .acf-ajax-response.is--error {
+    background: var(--acfff-red);
+  }
+  .acf-field-repeater > .acf-input > .acf-notice.-warning.-dismiss {
+    display: none;
+  }
+  .acf-field-image:not(.has-value) .show-if-value,
+  .acf-field-file:not(.has-value) .show-if-value {
+    display: none;
+  }
+}
+/*# sourceMappingURL=acfff.css.map */

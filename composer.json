@@ -1,0 +1,62 @@
+{
+  "name": "hirasso/acf-frontend-forms",
+  "description": "Frontend forms for Advanced Custom Fields",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Rasso Hilber",
+      "email": "mail@rassohilber.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Hirasso\\ACFFF\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.2",
+    "composer/installers": "^2.3"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.25",
+    "phpstan/phpstan": "^2.1",
+    "roots/wordpress": "^6.8",
+    "symfony/var-dumper": "^7.1",
+    "wp-cli/wp-cli": "^2.12",
+    "wpackagist-plugin/advanced-custom-fields": "^6.7"
+  },
+  "repositories": {
+    "wpackagist": {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "phpstan/extension-installer": true,
+      "roots/wordpress-core-installer": true
+    }
+  },
+  "extra": {
+    "installer-paths": {
+      "vendor/.wp/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "vendor/.wp/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    },
+    "wordpress-install-dir": "vendor/.wp/core"
+  }
+}

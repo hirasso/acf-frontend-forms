@@ -1,0 +1,120 @@
+name: Version or Publish
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write # for merging the PR and creating the release
+  pull-requests: write # for creating the version PR
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package-infos:
+    name: Get Package Infos
+    runs-on: ubuntu-latest
+    outputs:
+      fullName: ${{ steps.package-infos.outputs.fullName }}
+      vendorName: ${{ steps.package-infos.outputs.vendorName }}
+      packageName: ${{ steps.package-infos.outputs.packageName }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read and Write Package Infos to Output
+        id: package-infos
+        run: |
+          NAME=$(jq -r '.name' composer.json)
+          echo "fullName=${NAME}" >> $GITHUB_OUTPUT
+          echo "vendorName=${NAME%%/*}" >> $GITHUB_OUTPUT
+          echo "packageName=${NAME#*/}" >> $GITHUB_OUTPUT
+          cat "$GITHUB_OUTPUT"
+
+  release:
+    needs: package-infos
+    if: ${{ github.repository == needs.package-infos.outputs.fullName }}
+
+    name: Create Version PR or Publish
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    env:
+      HUSKY: 0
+
+    steps:
+      - name: Configure Git
+        run: |
+          git config --global user.email "bot@rassohilber.com"
+          git config --global user.name "Rasso Hilber's Bot"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+
+      # Setup PNPM before node.js, so that we use the cache in the next action
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: pnpm
+
+      - name: Install deps and build assets
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Commit built assets
+        run: |
+          git add assets/
+          git diff --staged --quiet || git commit -m "chore: build output [skip ci]"
+          git push
+
+      # Run changesets action either if there are unreleased changesets (= a PR must be created)
+      # or if the commit message matches the release PR (= new versions must be published to NPM)
+      - name: Create changesets PR or Publish
+        id: cs
+        uses: changesets/action@v1
+        with:
+          title: "[CI] Release"
+          commit: "[CI] Release"
+          version: pnpm run version
+          publish: pnpm changeset tag
+        env:
+          # doesn't work with GITHUB_TOKEN for some reason
+          GITHUB_TOKEN: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
+
+      - name: Upload release asset
+        if: steps.cs.outputs.published == 'true'
+        run: |
+          TAG=$(gh release list --limit 1 --json tagName -q '.[0].tagName')
+          echo "Latest tag: $TAG"
+
+          NAME="${{ github.event.repository.name }}"
+          echo "Repo Name: $NAME"
+
+          FILENAME="$NAME-$TAG.zip"
+          echo "File Name: $FILENAME"
+
+          git archive -o "/tmp/$FILENAME" --prefix="$NAME/" "$TAG"
+
+          gh release upload "$TAG" "/tmp/$FILENAME" --clobber
+
+          echo "✅ Uploaded $FILENAME to the release $TAG"
+        env:
+          GH_TOKEN: ${{ github.token }}

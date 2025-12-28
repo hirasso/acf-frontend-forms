@@ -1,0 +1,33 @@
+@import "./inc/vars.css";
+@import "./inc/dropzone.css";
+@import "./inc/error-message.css";
+
+/** custom elements */
+:where(acf-frontend-form *:not([inline]):not(:defined)) {
+  display: block;
+}
+
+:where(acf-frontend-form) {
+  .acf-input {
+    position: relative;
+  }
+  .acfff\:locked {
+    pointer-events: none;
+  }
+  .acf-field textarea {
+    resize: none;
+  }
+  .acf-ajax-response {
+    background: var(--acfff-green);
+  }
+  .acf-ajax-response.is--error {
+    background: var(--acfff-red);
+  }
+  .acf-field-repeater > .acf-input > .acf-notice.-warning.-dismiss {
+    display: none;
+  }
+  .acf-field-image:not(.has-value) .show-if-value,
+  .acf-field-file:not(.has-value) .show-if-value {
+    display: none;
+  }
+}
