@@ -1,0 +1,139 @@
+<?php
+
+namespace Hirasso\ACFFF\Tests\End2End;
+
+use Exception;
+use Extended\ACF\Fields\Text;
+use Extended\ACF\Fields\Textarea;
+use Extended\ACF\Location;
+use WP_Post;
+
+/** Exit if accessed directly */
+if (!\defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Setup context to run e2e tests against
+ */
+final class Setup
+{
+    protected WP_Post $testPage;
+
+    /**
+     * @var array{
+     *  key: string
+     * } $fieldGroup
+     */
+    protected array $fieldGroup;
+
+    public function __construct()
+    {
+        $this->testPage = $this->getTestPage();
+        $this->fieldGroup = $this->setupTestFieldGroup();
+
+        \add_filter('render_block', [$this, 'renderBlock'], 10, 2);
+    }
+
+    /**
+     * Inject our test form after the post title
+     *
+     * @param array{
+     *   blockName: string
+     * } $block
+     */
+    public function renderBlock(string $content, array $block): string
+    {
+        if ($block['blockName'] !== 'core/post-title') {
+            return $content;
+        }
+
+        \ob_start(); ?>
+
+        <?= $content ?>
+
+        <div style='margin-inline: auto;'>
+            <?= \acfff()->form([
+                'field_groups' => [$this->fieldGroup['key']],
+            ])->render() ?>
+        </div>
+
+        <?php return \ob_get_clean();
+    }
+
+    /**
+     * Get a test page to hold the frontend form for e2e tests
+     */
+    protected function getTestPage(): ?WP_Post
+    {
+        /**
+         * First, try an existing post
+         * @var ?int $postID
+         */
+        $postID = \get_posts([
+            'post_type' => 'page',
+            'post_status' => 'any',
+            'meta_query' => [
+                'key' => 'e2e_test_page',
+                'value' => '1'
+            ],
+            'fields' => 'ids',
+        ])[0] ?? null;
+
+        /**
+         * Create one if none exists
+         */
+        if (!$postID) {
+            $postID = \wp_insert_post([
+                'post_type' => 'page',
+            ]);
+        }
+
+        if (\is_wp_error($postID)) {
+            throw new Exception($postID->get_error_message());
+        }
+
+        /**
+         * Set post properties here
+         */
+        \wp_update_post([
+            'ID' => $postID,
+            'post_title' => 'Test Page',
+            'post_status' => 'publish',
+            'meta_input' => [
+                'e2e_test_page' => true
+            ]
+        ]);
+
+        return \get_post($postID);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function setupTestFieldGroup(): array
+    {
+        return \register_extended_field_group([
+            'title' => 'My Frontend Form',
+            'fields' => [
+                Text::make('First Name')
+                    ->column(50)
+                    ->required(),
+
+                Text::make('Last Name')
+                    ->column(50)
+                    ->required(),
+
+                Textarea::make('Message'),
+
+            ],
+            'location' => [
+                Location::where('post_type', 'page'),
+            ],
+            'position' => 'acf_after_title',
+            'style' => 'default',
+            'active' => true
+        ]);
+    }
+
+}

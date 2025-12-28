@@ -1,6 +1,6 @@
 <?php
 
-namespace Hirasso\ACFFF\Tests;
+namespace Hirasso\ACFFF\Tests\Pest;
 
 /**
  * wp-phpunit bootstrap file

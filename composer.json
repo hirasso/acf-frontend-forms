@@ -16,11 +16,18 @@
       "Hirasso\\ACFFF\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Hirasso\\ACFFF\\": "src/",
+      "Hirasso\\ACFFF\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=8.2",
     "composer/installers": "^2.3"
   },
   "require-dev": {
+    "illuminate/collections": "^12.44",
     "laravel/pint": "^1.25",
     "pestphp/pest": "^1.23",
     "phpstan/extension-installer": "^1.4",

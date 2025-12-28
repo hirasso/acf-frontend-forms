@@ -1,6 +1,9 @@
 <?php
 
+namespace Hirasso\ACFFF\Tests\Pest;
+
 use Hirasso\ACFFF\ACFFF;
+use WP_UnitTestCase;
 
 class BasicTest extends WP_UnitTestCase
 {

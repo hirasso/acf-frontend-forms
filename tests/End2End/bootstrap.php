@@ -5,7 +5,7 @@
  * Description: Prepares the @wordpress/env tests environment for e2e tests
  */
 
-namespace Hirasso\ACFFF\Tests\e2e;
+namespace Hirasso\ACFFF\Tests\End2End;
 
 /** Exit if accessed directly */
 if (!\defined('ABSPATH')) {
@@ -27,10 +27,6 @@ function getCurrentEnv(): ?string
         : null;
 }
 
-\add_action('plugins_loaded', function () {
-    $env = getCurrentEnv();
-    if ($env === 'tests') {
-        \dump('@TODO: Implement e2e setup');
-    }
-
-});
+if (getCurrentEnv() === 'tests') {
+    \add_action('after_setup_theme', fn () => new Setup());
+};
