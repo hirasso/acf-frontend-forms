@@ -6,14 +6,21 @@
   "plugins": [
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields",
-    "./vendor/.wp/plugins/classic-editor"
+    "./vendor/.wp/plugins/classic-editor",
+    "./tests/e2e/bootstrap.php"
   ],
   "env": {
     "development": {
-      "port": 22333
+      "port": 22333,
+      "config": {
+        "ACFFF_WP_ENV": "development"
+      }
     },
     "tests": {
-      "port": 22334
+      "port": 22334,
+      "config": {
+        "ACFFF_WP_ENV": "tests"
+      }
     }
   },
   "lifecycleScripts": {
