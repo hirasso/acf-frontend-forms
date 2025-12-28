@@ -330,10 +330,7 @@
           return;
         }
         if (currentValue) {
-          console.log(
-            "[acfff] Field already has a value, skipping:",
-            debugInfo
-          );
+          console.log("[acfff] Field already has a value, skipping:", debugInfo);
           return;
         }
         switch (type) {
