@@ -1,12 +1,13 @@
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "phpVersion": "8.3",
   "core": "./vendor/.wp/core",
+  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
   "plugins": [
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields",
     "./vendor/.wp/plugins/classic-editor"
   ],
-  "phpVersion": "8.3",
   "env": {
     "development": {
       "port": 22333
@@ -15,7 +16,6 @@
       "port": 22334
     }
   },
-  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
   "lifecycleScripts": {
     "afterStart": "./tools/wp-env-after-start.sh"
   }
