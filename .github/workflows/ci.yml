@@ -32,6 +32,7 @@ jobs:
       - name: Setup and Start wp-env
         uses: hirasso/setup-wp-env@a6bd4d8692451e655e1a4fcdaad6e11b2d79b004
         with:
+          core: null
           phpVersion: ${{ matrix.php }}
 
       - name: Run PHPStan Tests
