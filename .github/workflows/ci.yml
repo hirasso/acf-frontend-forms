@@ -30,7 +30,7 @@ jobs:
           php-version: ${{ matrix.php }}
 
       - name: Setup and Start wp-env
-        uses: hirasso/setup-wp-env@a6bd4d8692451e655e1a4fcdaad6e11b2d79b004
+        uses: hirasso/setup-wp-env@97c906fba2ced11f1e755d1ed82c616b9c984949
         with:
           core: null
           phpVersion: ${{ matrix.php }}
