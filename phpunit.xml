@@ -5,7 +5,7 @@
   colors="true">
   <testsuites>
     <testsuite name="Test Suite">
-        <directory suffix="Test.php">./tests/pest</directory>
+        <directory suffix="Test.php">tests/Pest</directory>
     </testsuite>
   </testsuites>
   <coverage>
