@@ -1,6 +1,6 @@
 <?php
 
-namespace Hirasso\ACFFF\Tests\End2End;
+namespace Hirasso\ACFFF\Tests\E2E;
 
 use Exception;
 use Extended\ACF\Fields\Text;
@@ -99,6 +99,7 @@ final class Setup
         \wp_update_post([
             'ID' => $postID,
             'post_title' => 'Test Page',
+            'post_name' => 'test-page',
             'post_status' => 'publish',
             'meta_input' => [
                 'e2e_test_page' => true

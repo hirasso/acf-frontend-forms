@@ -4,7 +4,7 @@
  * Plugin Name: ACF Frontend Forms
  * Version: 0.0.0
  * Author: Rasso Hilber
- * Description: Frontend forms for Advanced Custom Fields
+ * Description: Enhancments for Advanced Custom Fields's acf_form() 📚
  * Author URI: https://rassohilber.com
  * License: GPL-3.0-or-later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
