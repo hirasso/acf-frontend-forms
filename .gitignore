@@ -3,9 +3,29 @@
 npm-debug.log
 package.lock
 node_modules
+yarn.lock
 
 *.map
 
+# phpunit
 .phpunit.result.cache
+*.xml.dist.bak
 
+# composer
 vendor
+
+# other
+*.sql
+*.log
+*.zip
+*.afphoto~lock~
+acf-frontend-forms
+
+# Testing tools and outputs
+/tests/**/reports/
+/tests/**/results/
+**/playwright-report/
+**/playwright/.cache
+**/playwright/.auth
+playwright-results.json
+.wp-env.override.json

@@ -5,7 +5,7 @@
  * Description: Prepares the @wordpress/env tests environment for e2e tests
  */
 
-namespace Hirasso\ACFFF\Tests\End2End;
+namespace Hirasso\ACFFF\Tests\E2E;
 
 /** Exit if accessed directly */
 if (!\defined('ABSPATH')) {

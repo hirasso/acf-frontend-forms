@@ -21,7 +21,7 @@ msgstr ""
 
 #. Description of the plugin
 #: acf-frontend-forms.php
-msgid "Frontend forms for Advanced Custom Fields"
+msgid "Enhancments for Advanced Custom Fields's acf_form() 📚"
 msgstr ""
 
 #. Author of the plugin

@@ -7,7 +7,7 @@
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields",
     "./vendor/.wp/plugins/classic-editor",
-    "./tests/e2e/bootstrap.php"
+    "./tests/E2E/bootstrap.php"
   ],
   "env": {
     "development": {
