@@ -65,12 +65,6 @@ jobs:
           # secrets.GITHUB_TOKEN is not enough to push to the dist repo (needed later)
           token: ${{ secrets.HIRASSO_ACTIONS_TOKEN }}
 
-      # Run this before changesets, to make sure releases actually work
-      # - name: Create Release Files and Prepare Dist Folder
-      #   run: |
-      #     bin/cli.js release:create
-      #     bin/cli.js dist:prepare
-
       # Run changesets action either if there are unreleased changesets (= a PR must be created)
       # or if the commit message matches the release PR (= new versions must be published to NPM)
       - name: Create changesets PR or Publish

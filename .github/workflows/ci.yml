@@ -56,17 +56,12 @@ jobs:
           php-version: ${{ matrix.php }}
           playwright: true
 
-      - name: Create Release Files
-        run: |
-          bin/cli.js release:create
-
       - name: Setup and Start wp-env
         uses: godaddy-wordpress/setup-wp-env@v1
         with:
           phpVersion: 8.3
-          plugins: '["./scoped/wp-thumbhash/", "./tests/E2E/e2e-plugin.php"]'
 
-      - name: Run Playwright Tests Against the Scoped Release
+      - name: Run E2E Tests
         run: |
           pnpm run test:e2e
 
