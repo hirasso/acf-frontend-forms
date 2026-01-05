@@ -7,6 +7,9 @@
   "private": true,
   "description": "Enhancments for Advanced Custom Fields's acf_form() 📚",
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "prepare": "husky",
     "make-pot": "tools/make-pot.sh",
@@ -58,7 +61,6 @@
     "postcss-cli": "^11.0.1",
     "postcss-preset-env": "^10.5.0",
     "prettier": "^3.7.4",
-    "typescript": "^5.9.3",
-    "unzipper": "^0.12.3"
+    "typescript": "^5.9.3"
   }
 }

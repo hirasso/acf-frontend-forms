@@ -14,7 +14,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import unzipper from "unzipper";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 /**
  * Fetches the download URL of the latest GitHub release asset matching a pattern.
@@ -72,10 +75,7 @@ async function downloadFile(url, destPath) {
  */
 async function extractZip(zipPath, targetDir) {
   await fs.promises.mkdir(targetDir, { recursive: true });
-  await fs
-    .createReadStream(zipPath)
-    .pipe(unzipper.Extract({ path: targetDir }))
-    .promise();
+  await execFileAsync("unzip", ["-q", "-o", zipPath, "-d", targetDir]);
 }
 
 (async () => {
@@ -98,9 +98,19 @@ async function extractZip(zipPath, targetDir) {
     }
 
     const zipFile = path.join(targetDir, "acf-pro.zip");
+    const acfProDir = path.join(targetDir, "advanced-custom-fields-pro");
+
+    // Download the zip
     console.log("Downloading:", url);
     await downloadFile(url, zipFile);
 
+    // Remove existing installation if present
+    if (fs.existsSync(acfProDir)) {
+      console.log("Removing existing installation:", acfProDir);
+      await fs.promises.rm(acfProDir, { recursive: true, force: true });
+    }
+
+    // Extract the zip
     console.log("Extracting to:", targetDir);
     await extractZip(zipFile, targetDir);
 
