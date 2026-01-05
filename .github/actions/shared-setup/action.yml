@@ -23,16 +23,6 @@ runs:
         node-version-file: package.json
         cache: pnpm
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ inputs.php-version }}
-        tools: composer:v2
-        coverage: xdebug
-
-    - name: Install Composer Dependencies
-      uses: ramsey/composer-install@v3
-
     - name: Install Dependencies
       shell: bash
       run: pnpm install --frozen-lockfile
@@ -48,3 +38,14 @@ runs:
       run: |
         echo "Playwright version: ${{ steps.install-playwright.outputs.version }}"
         echo "Playwright cached: ${{ steps.install-playwright.outputs.cache-hit }}"
+
+    # NEEDS to run after installing node.js dependencies
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+        tools: composer:v2
+        coverage: xdebug
+
+    - name: Install Composer Dependencies
+      uses: ramsey/composer-install@v3
