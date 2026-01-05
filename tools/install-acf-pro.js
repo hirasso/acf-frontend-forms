@@ -76,6 +76,22 @@ async function extractZip(zipPath, targetDir) {
   zip.extractAllTo(targetDir, true);
 }
 
+/**
+ * Empties a directory by removing all its contents while keeping the directory itself.
+ *
+ * @param {string} dirPath - Path to the directory to empty
+ */
+async function emptyDirectory(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    const entries = await fs.promises.readdir(dirPath);
+    await Promise.all(
+      entries.map((entry) =>
+        fs.promises.rm(path.join(dirPath, entry), { recursive: true, force: true })
+      )
+    );
+  }
+}
+
 (async () => {
   try {
     const targetDir = process.argv[2];
@@ -102,10 +118,10 @@ async function extractZip(zipPath, targetDir) {
     console.log("Downloading:", url);
     await downloadFile(url, zipFile);
 
-    // Remove existing installation if present
+    // Empty existing installation if present
     if (fs.existsSync(acfProDir)) {
-      console.log("Removing existing installation:", acfProDir);
-      await fs.promises.rm(acfProDir, { recursive: true, force: true });
+      console.log("Emptying existing installation:", acfProDir);
+      await emptyDirectory(acfProDir);
     }
 
     // Extract the zip
