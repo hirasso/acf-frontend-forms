@@ -515,7 +515,7 @@
             },
             failure: () => {
               var _a;
-              (_a = this.logger) == null ? void 0 : _a.error("validation error");
+              (_a = this.logger) == null ? void 0 : _a.error("validation error", validator.getErrors());
             },
             success: ($form) => {
               var _a;

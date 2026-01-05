@@ -13,7 +13,7 @@ type AjaxResponse = {
   };
 };
 
-import type { ACF } from "../types.js";
+import type { ACFValidator } from "../types.js";
 import { merge } from "es-toolkit/object";
 import { debounce } from "es-toolkit/function";
 import { createLogger } from "./helpers.js";
@@ -97,7 +97,7 @@ export class FrontendForm {
           this.logger?.log("validation loading...");
         },
         failure: () => {
-          this.logger?.error("validation error");
+          this.logger?.error("validation error", validator.getErrors());
         },
         success: ($form) => {
           this.logger?.log("validation success – submitting form...", $form[0]);
@@ -130,10 +130,10 @@ export class FrontendForm {
    */
   validate = (
     options: Omit<Parameters<typeof acf.validateForm>[0], "form" | "event"> = {}
-  ): ACF["validator"] => {
+  ): ACFValidator => {
     const $form = this.$form;
     acf.validateForm({ form: $form, ...options });
-    return $form.data("acf");
+    return $form.data("acf") as ACFValidator;
   };
 
   /**

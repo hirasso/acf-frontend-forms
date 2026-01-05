@@ -251,7 +251,7 @@ class ACFFF
             return;
         }
 
-        $error_message = \__('Something went wrong, please reload the page and try again', 'acfff');
+        $error_message = \__('Something went wrong. Please reload the page and try again', 'acfff');
         $error_message = \apply_filters("hirasso/acfff/submit_form/error_message", $error_message);
         $error_message = \apply_filters("hirasso/acfff/submit_form/error_message/id={$form['id']}", $error_message);
 
@@ -812,7 +812,7 @@ class ACFFF
         if (\time() - (int) $started < 2) {
             \acf_add_validation_error(
                 '',
-                \__('Something went wrong. If the issue persists, please contact the site site administrator.', 'acfff')
+                \__('If the issue persists, please contact the site site administrator.', 'acfff')
             );
         }
     }
