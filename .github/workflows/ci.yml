@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches:
+      main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  php-tests:
+    name: PHP ${{ matrix.php }} Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2, 8.3]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Setup and Start wp-env
+        uses: hirasso/setup-wp-env@97c906fba2ced11f1e755d1ed82c616b9c984949
+        with:
+          core: 'null'
+          phpVersion: ${{ matrix.php }}
+
+      - name: Run PHPStan Tests
+        run: pnpm run analyse
+
+      - name: Run Pest Tests
+        run: pnpm run test:pest:ci
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Shared Setup
+        uses: ./.github/actions/shared-setup
+        with:
+          php-version: ${{ matrix.php }}
+          playwright: true
+
+      - name: Setup and Start wp-env
+        uses: godaddy-wordpress/setup-wp-env@v1
+        with:
+          phpVersion: 8.3
+
+      - name: Run E2E Tests
+        run: |
+          pnpm run test:e2e
+
+      - uses: daun/playwright-report-summary@v3
+        if: always()
+        with:
+          report-file: playwright-results.json
+

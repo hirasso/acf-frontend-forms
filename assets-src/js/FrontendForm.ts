@@ -13,14 +13,17 @@ type AjaxResponse = {
   };
 };
 
-import type { ACF } from "../types.js";
+import type { ACFValidator } from "../types.js";
 import { merge } from "es-toolkit/object";
 import { debounce } from "es-toolkit/function";
+import { createLogger } from "./helpers.js";
+import type { Logger } from "./helpers.js";
 
 /**
  * Defaults
  */
 const defaults = {
+  debug: false,
   ajax: {
     enabled: true,
     waitAfterSubmit: 50,
@@ -31,6 +34,7 @@ const defaults = {
 export class FrontendForm {
   static defaults = defaults;
   options: typeof defaults;
+  logger?: Logger;
 
   $form: JQuery<HTMLFormElement>;
   $ajaxResponse?: JQuery<HTMLElement>;
@@ -44,6 +48,9 @@ export class FrontendForm {
      */
     this.options = merge(defaults, options);
 
+    /** Initialize a logger only if is true */
+    if (this.options.debug) this.logger = createLogger();
+
     /** Bail early if there is no form element */
     if (!(el instanceof HTMLFormElement)) {
       console.error("Form element doesn't exist");
@@ -51,7 +58,7 @@ export class FrontendForm {
     }
     // return if global acf object doesn't exist
     if (typeof acf === "undefined") {
-      console.warn("The global acf object is not defined");
+      console.error("The global acf object is not defined");
       return;
     }
 
@@ -72,7 +79,7 @@ export class FrontendForm {
     acf.doAction("append", this.$form);
     acf.set(
       "post_id",
-      this.$form.find<HTMLInputElement>("#_acf_post_id").val(),
+      this.$form.find<HTMLInputElement>("#_acf_post_id").val()
     );
     acf.set("screen", "acf_form");
     acf.set("validation", true);
@@ -87,16 +94,13 @@ export class FrontendForm {
       const validator = this.validate({
         reset: true,
         loading: () => {
-          console.log("validation loading...");
-        },
-        complete: () => {
-          console.log("...validation complete!");
+          this.logger?.log("validation loading...");
         },
         failure: () => {
-          console.error("validation error");
+          this.logger?.error("validation error", validator.getErrors());
         },
         success: ($form) => {
-          console.log("validation success:", $form);
+          this.logger?.log("validation success – submitting form...", $form[0]);
           this.submit();
         },
       });
@@ -125,14 +129,11 @@ export class FrontendForm {
    * Validate this form
    */
   validate = (
-    options: Omit<
-      Parameters<typeof acf.validateForm>[0],
-      "form" | "event"
-    > = {},
-  ): ACF["validator"] => {
+    options: Omit<Parameters<typeof acf.validateForm>[0], "form" | "event"> = {}
+  ): ACFValidator => {
     const $form = this.$form;
     acf.validateForm({ form: $form, ...options });
-    return $form.data("acf");
+    return $form.data("acf") as ACFValidator;
   };
 
   /**
@@ -146,21 +147,13 @@ export class FrontendForm {
 
     acf.unload.enable();
 
-    // Fix for Safari Webkit – empty file inputs
-    // @see https://stackoverflow.com/a/49827426/586823
-    const $emptyFileInputs = this.$form
-      .find<HTMLInputElement>('input[type="file"]:not([disabled])')
-      .filter((i, input) => !input.disabled && !Boolean(input.files));
-
-    $emptyFileInputs.prop("disabled", true);
-
-    const formData = new FormData(this.$form[0]);
-
-    $emptyFileInputs.prop("disabled", false);
+    const formData = this.getFormData();
 
     acf.lockForm(this.$form);
 
     this.$form.addClass("acfff-locked");
+
+    this.logger?.log("Submitting form via AJAX...");
 
     $.ajax({
       url: window.location.href,
@@ -170,9 +163,30 @@ export class FrontendForm {
       processData: false,
       contentType: false,
     }).done((response: AjaxResponse) => {
+      this.logger?.log("Form submitted via AJAX!", this.$form[0]);
       this.handleAjaxResponse(response);
     });
   };
+
+  /**
+   * Get the form data from the form
+   *
+   * Includes a fix for WebKit with empty file inputs
+   * @see @see https://stackoverflow.com/a/49827426/586823
+   */
+  getFormData() {
+    const $emptyFileInputs = this.$form
+      .find<HTMLInputElement>('input[type="file"]:not([disabled])')
+      .filter((i, input) => !input.disabled && !Boolean(input.files));
+
+    $emptyFileInputs.prop("disabled", true);
+
+    const data = new FormData(this.$form[0]);
+
+    $emptyFileInputs.prop("disabled", false);
+
+    return data;
+  }
 
   handleAjaxResponse(response: AjaxResponse) {
     acf.hideSpinner();
@@ -182,7 +196,7 @@ export class FrontendForm {
       return;
     }
 
-    this.$form.trigger("acfff/ajax/success", { response });
+    this.triggerDomEvent("acfff/ajax/success", { response });
     acf.unload.disable();
 
     setTimeout(() => {
@@ -196,6 +210,11 @@ export class FrontendForm {
     }, this.options.ajax.waitAfterSubmit);
   }
 
+  triggerDomEvent = (name: string, details: {}): void => {
+    this.logger?.log("triggering dom event:", name, details);
+    this.$form.trigger(name, details);
+  };
+
   createAjaxResponse() {
     this.$ajaxResponse = $(/*html*/ `<div class="acf-ajax-response"></div>`);
     this.$form.find(".acf-form-submit").append(this.$ajaxResponse);
@@ -204,12 +223,11 @@ export class FrontendForm {
   showAjaxResponse(response: AjaxResponse) {
     let message = response?.data?.message;
     if (!message) {
-      return console.warn(
-        "[acf-frontend-forms] No response message found in AJAX response",
-      );
+      this.logger?.warn("No response message found in AJAX response");
+      return;
     }
 
-    this.$form.trigger("acfff:response", response);
+    this.triggerDomEvent("acfff:response", response);
 
     this.$ajaxResponse
       ?.text(message)

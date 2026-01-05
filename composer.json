@@ -1,6 +1,6 @@
 {
   "name": "hirasso/acf-frontend-forms",
-  "description": "Frontend forms for Advanced Custom Fields",
+  "description": "Enhancments for Advanced Custom Fields's acf_form() 📚",
   "type": "wordpress-plugin",
   "license": "GPL-3.0-or-later",
   "authors": [

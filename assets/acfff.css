@@ -101,9 +101,6 @@
 }
 
 /* assets-src/css/inc/error-message.css */
-:where(acf-frontend-form) .acf-error-message.-dismiss {
-    display: none;
-  }
 :where(acf-frontend-form) .acf-temp-remove {
     display: none;
   }

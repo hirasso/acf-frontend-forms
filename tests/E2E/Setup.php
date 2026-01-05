@@ -1,6 +1,6 @@
 <?php
 
-namespace Hirasso\ACFFF\Tests\End2End;
+namespace Hirasso\ACFFF\Tests\E2E;
 
 use Exception;
 use Extended\ACF\Fields\Text;
@@ -55,8 +55,21 @@ final class Setup
         <div style='margin-inline: auto;'>
             <?= \acfff()->form([
                 'field_groups' => [$this->fieldGroup['key']],
-            ])->render() ?>
+                'updated_message' => __('Submission received'),
+                'submit_value' => __('Send'),
+                'return' => false
+            ])->debug() ?>
         </div>
+
+        <script>
+            window.acfffAutofillValues = [
+                {
+                    first_name: "Jane",
+                    last_name: "Doe",
+                    message: "Hello does this work?"
+                },
+            ]
+        </script>
 
         <?php return \ob_get_clean();
     }
@@ -99,6 +112,7 @@ final class Setup
         \wp_update_post([
             'ID' => $postID,
             'post_title' => 'Test Page',
+            'post_name' => 'test-page',
             'post_status' => 'publish',
             'meta_input' => [
                 'e2e_test_page' => true

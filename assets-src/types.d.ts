@@ -61,18 +61,33 @@ export interface ACFRepeaterData {
 }
 
 /** Arguments for acf.findFields */
-export interface ACFFindFieldsArgs {
-  key?: string;
-  name?: string;
-  type?: string;
-  is?: string;
-  parent?: JQuery;
-  sibling?: JQuery;
-  limit?: number | false;
-  visible?: boolean;
-  suppressFilters?: boolean;
-  excludeSubFields?: boolean;
-}
+export type ACFFindFieldsArgs = Partial<{
+  key: string;
+  name: string;
+  type: string;
+  is: string;
+  parent: JQuery;
+  sibling: JQuery;
+  limit: number | false;
+  visible: boolean;
+  suppressFilters: boolean;
+  excludeSubFields: boolean;
+}>
+
+/**
+ * An ACF Validator instance
+ */
+export type ACFValidationError = {
+  input: string;
+  message: string;
+};
+export type ACFValidator = {
+  id: "Validator";
+  hasErrors(): number;
+  getErrors(): ACFValidationError[];
+  getGlobalErrors(): (ACFValidationError & { input: "" })[];
+  showErrors(): void;
+};
 
 /** the type of acf.data */
 export type ACFGlobalConfig = {
@@ -169,26 +184,26 @@ export type ACF = {
    */
   addAction<T extends HTMLElement>(
     action: "remove" | "append",
-    callback: (arg: JQuery<T>) => ACFActionCallbackReturn,
+    callback: (arg: JQuery<T>) => ACFActionCallbackReturn
   ): void;
   addAction(
     action: `validation_${"beginn" | "failure" | "success" | "complete"}`,
     callback: (
       $form: JQuery<HTMLFormElement>,
-      valdation: Record<any, any>,
-    ) => ACFActionCallbackReturn,
+      valdation: Record<any, any>
+    ) => ACFActionCallbackReturn
   ): void;
   addAction(
     action: "submit",
-    callback: ($form: JQuery<HTMLFormElement>) => ACFActionCallbackReturn,
+    callback: ($form: JQuery<HTMLFormElement>) => ACFActionCallbackReturn
   ): void;
   addAction(
     action: `new_field/type=${"image" | "file"}`,
-    callback: (arg: ACFAttachmentField) => ACFActionCallbackReturn,
+    callback: (arg: ACFAttachmentField) => ACFActionCallbackReturn
   ): void;
   addAction(
     action: "new_field" | `new_field/type=${string}`,
-    callback: (arg: ACFField) => ACFActionCallbackReturn,
+    callback: (arg: ACFField) => ACFActionCallbackReturn
   ): void;
 
   /**
@@ -259,13 +274,6 @@ export type ACF = {
   }): void;
 
   /**
-   * An ACF validator Backbone.js Model instance
-   */
-  validator: {
-    id: "Validator";
-  };
-
-  /**
    * Unload API
    */
   unload: {
@@ -328,7 +336,7 @@ declare global {
   interface Window {
     acf: ACF;
     jQuery: JQueryStatic;
-    acfAutofillValues?: Record<string, any>[];
+    acfffAutofillValues?: Record<string, any>[];
     acfff: {
       autofill: typeof autofill;
     };

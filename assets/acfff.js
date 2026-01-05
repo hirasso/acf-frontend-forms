@@ -270,15 +270,16 @@
   });
 
   // assets-src/js/autofill.ts
+  var $ = window.jQuery;
   function autofill(id = 0) {
     var _a;
     let $forms = $(".acf-form");
     if (!$forms.length) {
       return false;
     }
-    const values = (_a = window.acfAutofillValues) == null ? void 0 : _a[id];
+    const values = (_a = window.acfffAutofillValues) == null ? void 0 : _a[id];
     if (typeof values !== "object") {
-      console.warn("[acfff] window.acfAutofillValues is not defined");
+      console.warn("[acfff] window.acfffAutofillValues is not defined");
       return false;
     }
     console.log("[acfff] Autofilling form...");
@@ -453,10 +454,33 @@
     return debounced;
   }
 
+  // assets-src/js/helpers.ts
+  var prefix = "acfff";
+  function nextTick() {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
+  }
+  function createLogger() {
+    const style = [
+      "background: linear-gradient(to right, #a960ee, #f78ed4)",
+      "color: white",
+      "padding-inline: 4px",
+      "border-radius: 2px",
+      "font-family: monospace"
+    ].join(";");
+    return {
+      log: (...args) => console.log(`%c${prefix}`, style, ...args),
+      warn: (...args) => console.warn(`%c${prefix}`, style, ...args),
+      error: (...args) => console.error(`%c${prefix}`, style, ...args)
+    };
+  }
+
   // assets-src/js/FrontendForm.ts
   var $2 = window.jQuery;
   var acf = window.acf;
   var defaults = {
+    debug: false,
     ajax: {
       enabled: true,
       waitAfterSubmit: 50,
@@ -486,16 +510,16 @@
           const validator = this.validate({
             reset: true,
             loading: () => {
-              console.log("validation loading...");
-            },
-            complete: () => {
-              console.log("...validation complete!");
+              var _a;
+              (_a = this.logger) == null ? void 0 : _a.log("validation loading...");
             },
             failure: () => {
-              console.error("validation error");
+              var _a;
+              (_a = this.logger) == null ? void 0 : _a.error("validation error", validator.getErrors());
             },
             success: ($form) => {
-              console.log("validation success:", $form);
+              var _a;
+              (_a = this.logger) == null ? void 0 : _a.log("validation success \u2013 submitting form...", $form[0]);
               this.submit();
             }
           });
@@ -517,17 +541,16 @@
        * Submit this form via AJAX
        */
       this.submit = () => {
+        var _a;
         if (!this.options.ajax.enabled) {
           this.$form[0].submit();
           return;
         }
         acf.unload.enable();
-        const $emptyFileInputs = this.$form.find('input[type="file"]:not([disabled])').filter((i, input) => !input.disabled && !Boolean(input.files));
-        $emptyFileInputs.prop("disabled", true);
-        const formData = new FormData(this.$form[0]);
-        $emptyFileInputs.prop("disabled", false);
+        const formData = this.getFormData();
         acf.lockForm(this.$form);
         this.$form.addClass("acfff-locked");
+        (_a = this.logger) == null ? void 0 : _a.log("Submitting form via AJAX...");
         $2.ajax({
           url: window.location.href,
           method: "post",
@@ -536,8 +559,15 @@
           processData: false,
           contentType: false
         }).done((response) => {
+          var _a2;
+          (_a2 = this.logger) == null ? void 0 : _a2.log("Form submitted via AJAX!", this.$form[0]);
           this.handleAjaxResponse(response);
         });
+      };
+      this.triggerDomEvent = (name, details) => {
+        var _a;
+        (_a = this.logger) == null ? void 0 : _a.log("triggering dom event:", name, details);
+        this.$form.trigger(name, details);
       };
       /**
        * Set "has-value" on a field based on it's value
@@ -574,12 +604,13 @@
       }, 100);
       this.$form = $2(el);
       this.options = merge(defaults, options);
+      if (this.options.debug) this.logger = createLogger();
       if (!(el instanceof HTMLFormElement)) {
         console.error("Form element doesn't exist");
         return;
       }
       if (typeof acf === "undefined") {
-        console.warn("The global acf object is not defined");
+        console.error("The global acf object is not defined");
         return;
       }
       this.initialize();
@@ -593,13 +624,26 @@
         $2(this).trigger("click");
       });
     }
+    /**
+     * Get the form data from the form
+     *
+     * Includes a fix for WebKit with empty file inputs
+     * @see @see https://stackoverflow.com/a/49827426/586823
+     */
+    getFormData() {
+      const $emptyFileInputs = this.$form.find('input[type="file"]:not([disabled])').filter((i, input) => !input.disabled && !Boolean(input.files));
+      $emptyFileInputs.prop("disabled", true);
+      const data = new FormData(this.$form[0]);
+      $emptyFileInputs.prop("disabled", false);
+      return data;
+    }
     handleAjaxResponse(response) {
       acf.hideSpinner();
       this.showAjaxResponse(response);
       if (!response.success) {
         return;
       }
-      this.$form.trigger("acfff/ajax/success", { response });
+      this.triggerDomEvent("acfff/ajax/success", { response });
       acf.unload.disable();
       setTimeout(() => {
         this.$form.removeClass("show-ajax-response");
@@ -618,15 +662,14 @@
       this.$form.find(".acf-form-submit").append(this.$ajaxResponse);
     }
     showAjaxResponse(response) {
-      var _a, _b;
+      var _a, _b, _c;
       let message = (_a = response == null ? void 0 : response.data) == null ? void 0 : _a.message;
       if (!message) {
-        return console.warn(
-          "[acf-frontend-forms] No response message found in AJAX response"
-        );
+        (_b = this.logger) == null ? void 0 : _b.warn("No response message found in AJAX response");
+        return;
       }
-      this.$form.trigger("acfff:response", response);
-      (_b = this.$ajaxResponse) == null ? void 0 : _b.text(message).toggleClass("is--error", response.success === false);
+      this.triggerDomEvent("acfff:response", response);
+      (_c = this.$ajaxResponse) == null ? void 0 : _c.text(message).toggleClass("is--error", response.success === false);
       this.$form.addClass("show-ajax-response");
     }
     /**
@@ -711,15 +754,6 @@
 
   // assets-src/acfff.ts
   var import_autosize = __toESM(require_autosize(), 1);
-
-  // assets-src/js/helpers.ts
-  function nextTick() {
-    return new Promise((resolve) => {
-      requestAnimationFrame(() => requestAnimationFrame(resolve));
-    });
-  }
-
-  // assets-src/acfff.ts
   window.acfff = {
     autofill
   };
