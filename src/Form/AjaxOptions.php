@@ -2,7 +2,7 @@
 
 namespace Hirasso\ACFFF\Form;
 
-final readonly class AjaxOptions
+final class AjaxOptions
 {
     public function __construct(
         public bool $enabled = true,
