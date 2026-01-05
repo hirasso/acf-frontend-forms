@@ -14,10 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-
-const execFileAsync = promisify(execFile);
+import AdmZip from "adm-zip";
 
 /**
  * Fetches the download URL of the latest GitHub release asset matching a pattern.
@@ -75,7 +72,8 @@ async function downloadFile(url, destPath) {
  */
 async function extractZip(zipPath, targetDir) {
   await fs.promises.mkdir(targetDir, { recursive: true });
-  await execFileAsync("unzip", ["-q", "-o", zipPath, "-d", targetDir]);
+  const zip = new AdmZip(zipPath);
+  zip.extractAllTo(targetDir, true);
 }
 
 (async () => {

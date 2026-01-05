@@ -51,6 +51,7 @@
     "@types/jquery": "^3.5.33",
     "@types/node": "^25.0.3",
     "@wordpress/env": "^10.37.0",
+    "adm-zip": "^0.5.16",
     "caniuse-lite": "^1.0.30001578",
     "esbuild": "^0.27.2",
     "fast-glob": "^3.3.3",
