@@ -51,10 +51,23 @@ final class Form
         return $this;
     }
 
+    public function debug(): self {
+        $this->jsOptions->debug = true;
+        return $this;
+    }
+
+    /**
+     * Automatically render when echoed
+     */
+    public function __toString(): string
+    {
+        return $this->render() ?? '';
+    }
+
     /**
      * Render the form
      */
-    public function render(): ?string
+    protected function render(): ?string
     {
         /** Buffer the acf_form() */
         \ob_start();

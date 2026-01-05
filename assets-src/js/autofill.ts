@@ -1,3 +1,5 @@
+const $ = window.jQuery;
+
 export function autofill(id = 0) {
   let $forms = $(".acf-form");
 
@@ -5,10 +7,10 @@ export function autofill(id = 0) {
     return false;
   }
 
-  const values = window.acfAutofillValues?.[id];
+  const values = window.acfffAutofillValues?.[id];
 
   if (typeof values !== "object") {
-    console.warn("[acfff] window.acfAutofillValues is not defined");
+    console.warn("[acfff] window.acfffAutofillValues is not defined");
     return false;
   }
 

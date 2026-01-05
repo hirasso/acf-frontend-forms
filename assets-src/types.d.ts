@@ -328,7 +328,7 @@ declare global {
   interface Window {
     acf: ACF;
     jQuery: JQueryStatic;
-    acfAutofillValues?: Record<string, any>[];
+    acfffAutofillValues?: Record<string, any>[];
     acfff: {
       autofill: typeof autofill;
     };

@@ -55,8 +55,21 @@ final class Setup
         <div style='margin-inline: auto;'>
             <?= \acfff()->form([
                 'field_groups' => [$this->fieldGroup['key']],
-            ])->render() ?>
+                'updated_message' => __('Submission received'),
+                'submit_value' => __('Send'),
+                'return' => false
+            ])->debug() ?>
         </div>
+
+        <script>
+            window.acfffAutofillValues = [
+                {
+                    first_name: "Jane",
+                    last_name: "Doe",
+                    message: "Hello does this work?"
+                },
+            ]
+        </script>
 
         <?php return \ob_get_clean();
     }
