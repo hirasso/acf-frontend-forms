@@ -74,11 +74,11 @@ final class Setup
         </div>
 
         <script>
-            // window.acfff.autofill({
-            //     first_name: "Jane",
-            //     last_name: "Doe",
-            //     message: "Hello does this work?"
-            // });
+            window.acfff.autofill({
+                first_name: "Jane",
+                last_name: "Doe",
+                message: "Hello does this work?"
+            });
         </script>
 
         <?php return \ob_get_clean();
@@ -152,16 +152,16 @@ final class Setup
 
                 Image::make('An Image'),
 
-                FlexibleContent::make('Flexible Content')
-                    ->layouts([
-                        Layout::make('An Image')
-                            ->fields([
-                                Image::make('Image')
-                                    ->required(),
-                                Text::make('Caption')
-                                    ->required(),
-                            ])
-                    ]),
+                // FlexibleContent::make('Flexible Content')
+                //     ->layouts([
+                //         Layout::make('An Image')
+                //             ->fields([
+                //                 Image::make('Image')
+                //                     ->required(),
+                //                 Text::make('Caption')
+                //                     ->required(),
+                //             ])
+                //     ]),
 
                 Repeater::make('Some Links')
                     ->fields([

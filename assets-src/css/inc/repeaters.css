@@ -1,0 +1,109 @@
+/*
+ * ACF Repeater styles
+ */
+:where(acf-frontend-form) {
+  .acf-field-repeater {
+    position: relative;
+
+    .acf-fields {
+      border: none;
+      flex: 1;
+    }
+
+    .acf-field {
+      border: none;
+      width: 100%;
+    }
+    .acf-clone {
+      display: none !important;
+    }
+    .acf-table,
+    .acf-table tbody {
+      width: 100%;
+      display: block;
+    }
+    .acf-table tr {
+      position: relative;
+      display: block;
+      border-bottom: var(--acfff-border-style);
+    }
+    .acf-table tr:last-child {
+      border-bottom: 0;
+    }
+    .acf-table td {
+      display: block;
+      position: relative;
+    }
+    .acf-row-handle.order {
+      position: absolute;
+      z-index: 4;
+      padding: 0;
+      display: none;
+    }
+    .acf-row-handle.remove {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      display: flex !important;
+      flex-direction: row-reverse;
+
+      justify-content: space-between;
+      z-index: 3;
+      padding: 0.75em !important;
+      width: 60px;
+    }
+    .acf-row-handle.order span {
+      @include form-input;
+    }
+  }
+
+  .acf-table [data-event="add-row"],
+  .acf-table [data-event="remove-row"] {
+    display: block;
+    flex: none;
+    position: relative;
+    width: 1.7em;
+    height: 1.7em;
+    background: none !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100px;
+    z-index: 3;
+    margin-left: 0.4em;
+  }
+  .acf-table [data-event="add-row"]:after,
+  .acf-table [data-event="remove-row"]:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: white;
+    border-radius: 50%;
+  }
+  .acf-table [data-event="add-row"]:after {
+    background-image: url("../../images/plus-circle.svg");
+  }
+  .acf-table [data-event="remove-row"]:after {
+    background-image: url("../../images/minus-circle.svg");
+  }
+  .acf-row [data-event="add-row"] {
+    display: none;
+  }
+
+  .acf-actions [data-event="add-row"].disabled {
+    display: none !important;
+  }
+
+  .acf-tooltip {
+    position: absolute;
+    display: none;
+  }
+}

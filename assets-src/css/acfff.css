@@ -1,6 +1,8 @@
 @import "./inc/vars.css";
 @import "./inc/dropzone.css";
 @import "./inc/error-message.css";
+@import "./inc/theme.css";
+@import "./inc/repeaters.css";
 
 /** custom elements */
 :where(acf-frontend-form *:not([inline]):not(:defined)) {

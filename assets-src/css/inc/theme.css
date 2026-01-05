@@ -1,0 +1,366 @@
+/**
+ * Base Theme
+ */
+:where(acf-frontend-form) {
+  *,*:before,*:after {
+    box-sizing: border-box;
+  }
+  .acf-hidden {
+    display: none;
+  }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #fff inset;
+  }
+
+  .acf-form {
+    margin: 0;
+    border-left: var(--acfff-border-style);
+    border-right: var(--acfff-border-style);
+  }
+  .acf-fields {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .acf-field {
+    flex: none;
+    width: 100%;
+    border-top: var(--acfff-border-style);
+    position: relative;
+  }
+
+  [data-type="group"] .acf-field {
+    border-top: 0;
+    width: 50%;
+  }
+  .acf-field br {
+    display: none;
+  }
+  .acf-label {
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 3;
+  }
+  .acf-label,
+  .acf-input {
+    transition: top 150ms;
+  }
+  .has-value .acf-label {
+    opacity: 1;
+    font-size: 0.5em;
+    top: -0.8rem;
+  }
+  .acf-input {
+    position: relative;
+  }
+  .has-value .acf-input {
+    top: 0.35rem;
+  }
+  [data-type="group"] > .acf-label {
+    position: relative;
+    padding: 0.5rem 1rem 0.4rem;
+    border-bottom: var(--acfff-border-style);
+    color: black;
+    opacity: 1;
+    font-style: italic;
+  }
+
+  [data-name="date"] {
+    width: 100%;
+  }
+
+  [data-type="group"] .acf-field:not(:last-child) {
+    border-right: var(--acfff-border-style);
+  }
+
+  .acf-required {
+    font-size: 0.8em !important;
+    position: relative;
+    top: -0.2em;
+  }
+
+  .acf-input input,
+  .acf-input textarea,
+  .acf-ajax-response,
+  .acf-form-submit input,
+  .acf-label,
+  [data-type="select"] select,
+  [data-type="select"] .acf-input:before,
+  [data-type="image"] .acf-input {
+    display: block;
+    width: 100%;
+    padding: 1rem 1rem 0.8rem;
+    line-height: 1.5rem;
+    border: none;
+    appearance: none;
+    background: none;
+    white-space: nowrap;
+  }
+  .acf-label {
+    overflow: hidden;
+  }
+  .instructions {
+    white-space: normal;
+  }
+  .acf-input textarea {
+    white-space: normal;
+    line-height: 1.3;
+  }
+  [data-type="select"] .acf-input:before {
+    content: "-";
+    opacity: 0;
+    display: block;
+  }
+
+  [data-type="select"]:after {
+    content: "";
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    border-bottom: var(--acfff-border-style);
+    border-right: var(--acfff-border-style);
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    margin-top: -0.25em;
+    transform: rotate(45deg);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  [data-type="select"] select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    border-radius: 0;
+    border: 0;
+    background: none;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+  }
+  [data-type="select"].has-value select {
+    opacity: 1;
+  }
+
+  .ui-datepicker {
+    border: var(--acfff-border-style) black !important;
+    padding: 5px 0 0 !important;
+    margin-left: -8px;
+    margin-top: -8px;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
+  }
+  .ui-datepicker-title select + select {
+    margin-left: 0.5rem !important;
+  }
+  .ui-datepicker * {
+    font-weight: bold !important;
+  }
+  .acf-ui-datepicker .ui-widget-header a {
+    cursor: pointer;
+    text-decoration: none !important;
+  }
+  .ui-datepicker-prev .ui-icon,
+  .ui-datepicker-next .ui-icon {
+    display: none !important;
+  }
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    background: none !important;
+    border: none !important;
+    color: black !important;
+    top: 2px !important;
+  }
+  .ui-datepicker-prev {
+    left: 0 !important;
+  }
+  .ui-datepicker-next {
+    right: 0 !important;
+  }
+  .ui-datepicker-prev:before,
+  .ui-datepicker-next:before {
+    content: "→";
+    display: block;
+    position: relative;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .ui-datepicker-prev:before {
+    transform: translateY(1px) rotate(180deg);
+  }
+  .ui-datepicker-calendar {
+    border-top: var(--acfff-border-style);
+    margin-bottom: -2px !important;
+  }
+  .ui-datepicker-calendar tbody {
+    border-top: var(--acfff-border-style);
+  }
+  .ui-datepicker-calendar td {
+    padding: 0 !important;
+  }
+  .acf-ui-datepicker .ui-state-active {
+    background: black !important;
+    color: #fff !important;
+  }
+  .ui-datepicker-calendar tr:first-child a {
+    border-top: none !important;
+  }
+  .ui-datepicker-calendar a {
+    display: block;
+    text-align: center !important;
+    border: var(--acfff-border-style) black !important;
+    margin: 0 -2px -2px 0;
+    line-height: 2;
+  }
+  .ui-datepicker-calendar a:hover {
+    background: black !important;
+    color: #fff !important;
+  }
+  .ui-datepicker-calendar td:first-child a {
+    border-left: none !important;
+  }
+  .ui-datepicker-buttonpane {
+    border: none !important;
+    border-top: var(--acfff-border-style) black !important;
+    display: flex;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .ui-datepicker-buttonpane button {
+    display: block !important;
+    flex: 1;
+    margin: 0 !important;
+    height: 2rem;
+    color: black !important;
+    border: none !important;
+    border-right: var(--acfff-border-style) black !important;
+    float: none !important;
+    opacity: 1 !important;
+  }
+  .ui-datepicker-buttonpane button:last-child {
+    border-right: none !important;
+  }
+  .ui-datepicker-buttonpane button:hover {
+    color: #fff !important;
+    background: black !important;
+  }
+
+  .acf-form input[type="submit"] {
+    font-style: italic;
+  }
+  .acf-form input[type="submit"]:hover {
+    background: black;
+    color: #fff;
+  }
+
+  .acf-tooltip {
+    position: absolute;
+    display: none;
+  }
+  .acf-spinner {
+    display: none !important;
+  }
+  .acf-form-submit {
+    position: relative;
+    display: block;
+    border-top: var(--acfff-border-style);
+    border-bottom: var(--acfff-border-style);
+    overflow: hidden;
+  }
+
+  .acf-error-message {
+    display: none;
+  }
+  /**
+ * Fix for ACF Error-Removal
+ */
+  .acf-temp-remove {
+    display: none;
+  }
+  .acf-error-message p {
+    border-radius: 2px;
+    padding: 0.3em 0.7em;
+  }
+  .acf-input .acf-error-message {
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    right: 8px;
+    color: #fff;
+  }
+  .acf-input .acf-error-message:after {
+    margin-left: 80%;
+  }
+  .spinner,
+  .acf-form-submit:after {
+    content: "";
+    display: block;
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+    border: var(--acfff-border-style) transparent;
+    border-top-color: black;
+    border-radius: 50%;
+    animation: spin 700ms infinite linear;
+    position: absolute;
+  }
+  .acf-form-submit:after {
+    top: 50%;
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    visibility: hidden;
+  }
+  .acfff-loading .acf-form-submit input {
+    visibility: hidden;
+  }
+  .acfff-loading .acf-form-submit:after {
+    visibility: visible;
+  }
+  .acf-button.disabled {
+    pointer-events: none;
+  }
+  .acf-button {
+    margin: 0 !important;
+  }
+  .acf-ajax-response {
+    color: #fff;
+    background: var(--acfff-green, lime);
+    position: absolute;
+    top: 100%;
+
+    left: 0;
+    transition: top 200ms;
+    text-align: center;
+  }
+  .acf-ajax-response.is--error {
+    background: var(--acffff-red, red);
+  }
+
+  .show-ajax-response .acf-ajax-response {
+    top: 0;
+    transition: none;
+  }
+  .ui-timepicker-div.ui-timepicker-oneLine dl dd:before {
+    margin: 0 5px;
+  }
+  .ui-timepicker-div.ui-timepicker-oneLine dl .ui_tpicker_second {
+    display: none;
+  }
+  .ui-timepicker-div .ui-widget-header {
+    display: none;
+  }
+  .ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time_label {
+    display: none;
+  }
+  .ui-timepicker-div.ui-timepicker-oneLine dl {
+    text-align: center;
+    padding: 5px 0 10px;
+  }
+  .hidden-by-conditional-logic {
+    display: none;
+  }
+}
