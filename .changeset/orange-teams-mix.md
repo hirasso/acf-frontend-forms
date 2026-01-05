@@ -2,4 +2,4 @@
 "acf-frontend-forms": major
 ---
 
-**BREAKING** Rename everyhing from `acff()` to `acfff()` 🤡
+Rename everyhing from `acff()` to `acfff()` (== **ACF** **F**rontend **F**orms)
