@@ -28,6 +28,7 @@
     "composer/installers": "^2.3"
   },
   "require-dev": {
+    "guzzlehttp/guzzle": "^7.10",
     "illuminate/collections": "^12.44",
     "laravel/pint": "^1.25",
     "pestphp/pest": "^1.23",
@@ -79,10 +80,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "tools/install-acf-pro.js vendor/.wp/plugins"
+      "tools/install-acf-pro vendor/.wp/plugins"
     ],
     "post-update-cmd": [
-      "tools/install-acf-pro.js vendor/.wp/plugins"
+      "tools/install-acf-pro vendor/.wp/plugins"
     ]
   }
 }
