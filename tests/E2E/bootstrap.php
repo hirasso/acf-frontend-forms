@@ -3,6 +3,7 @@
 /**
  * Plugin Name: e2e tests bootstrap plugin
  * Description: Prepares the @wordpress/env tests environment for e2e tests
+ * Version: 10000.0.0
  */
 
 namespace Hirasso\ACFFF\Tests\E2E;

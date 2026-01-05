@@ -40,6 +40,10 @@ class ACFFF
      */
     public function add_hooks(): void
     {
+        if (!function_exists('acf_form_head')) {
+            return;
+        }
+
         // Always initializes the form_head in the frontend
         \add_action('template_redirect', 'acf_form_head');
 

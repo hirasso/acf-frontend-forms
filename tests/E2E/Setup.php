@@ -34,6 +34,10 @@ final class Setup
 
     public function __construct()
     {
+        if (!function_exists('register_field_group')) {
+            return;
+        }
+
         $this->testPage = $this->getTestPage();
         $this->fieldGroup = $this->setupTestFieldGroup();
 
