@@ -6,6 +6,7 @@ use Exception;
 use Extended\ACF\Fields\Text;
 use Extended\ACF\Fields\Textarea;
 use Extended\ACF\Location;
+use Hirasso\ACFFF\Form\AjaxOptions;
 use WP_Post;
 
 /** Exit if accessed directly */
@@ -58,7 +59,12 @@ final class Setup
                 'updated_message' => __('Submission received'),
                 'submit_value' => __('Send'),
                 'return' => false
-            ])->debug() ?>
+            ])
+            ->ajax(
+                enabled: true,
+                waitAfterSubmit: 2000
+            )
+            ->debug() ?>
         </div>
 
         <script>

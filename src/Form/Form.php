@@ -2,6 +2,8 @@
 
 namespace Hirasso\ACFFF\Form;
 
+use ReflectionMethod;
+
 /**
  * Render an ACF Frontend Form
  * - The form will be wrapped in a custom element `<acf-frontend-form></acf-frontend-form>`
@@ -21,18 +23,48 @@ final class Form
 
     /**
      * Set AJAX options for this form
-     *
-     * - true to enable
-     * - fase to disable
-     * - an object for full control
      */
-    public function ajax(bool|AjaxOptions|null $value = true): self
-    {
-        $this->jsOptions->ajax = \is_bool($value)
-            ? new AjaxOptions(enabled: $value)
-            : $value;
+    public function ajax(
+        ?bool $enabled = null,
+        ?int $waitAfterSubmit = null,
+        ?bool $resetAfterSubmit = null,
+        ?bool $submitOnChange = null,
+    ): self {
+
+        foreach ($this->getArguments('ajax', \func_get_args()) as $arg => $value) {
+            if (\is_null($value)) {
+                continue;
+            }
+            $this->jsOptions->ajax->$arg = $value;
+        }
 
         return $this;
+    }
+
+    /**
+     * Get provided arguments for a function:
+     *
+     * [
+     *   "arg1" => true,
+     *   "arg2" => "value"
+     * ]
+     *
+     * @param array<int, mixed> $args
+     * @return array<string, mixed>
+     */
+    protected function getArguments(string $funcName, array $args): array
+    {
+        $reflection = new ReflectionMethod(self::class, $funcName);
+        $parameters = $reflection->getParameters();
+
+        $result = [];
+
+        foreach ($args as $index => $value) {
+            $param = $parameters[$index];
+            $result[$param->name] = $value;
+        }
+
+        return $result;
     }
 
     /**
@@ -51,7 +83,8 @@ final class Form
         return $this;
     }
 
-    public function debug(): self {
+    public function debug(): self
+    {
         $this->jsOptions->debug = true;
         return $this;
     }
