@@ -84,6 +84,7 @@
   width: 80%;
   height: 80%;
   transform: translate3d(-50%, -50%, 0);
+  fill: #fff;
   fill: var(--acfff-white);
   stroke-width: 1.5px;
 }
@@ -100,62 +101,63 @@
 }
 
 /* assets-src/css/inc/error-message.css */
-:where(acf-frontend-form) {
-  .acf-temp-remove {
+:where(acf-frontend-form) .acf-temp-remove {
     display: none;
   }
-  .acf-error-message p {
+:where(acf-frontend-form) .acf-error-message p {
+    background: hsla(10, 100%, 55%, 1);
     background: var(--acfff-red);
     margin: 0;
     font-size: 0.8em;
     letter-spacing: 0.05em;
     padding: 0.55em 0.7em 0.55em;
+    color: #fff;
     color: var(--acfff-white);
   }
-  .acf-input .acf-error-message {
+:where(acf-frontend-form) .acf-input .acf-error-message {
     display: block;
     pointer-events: none;
     z-index: 4;
     margin-bottom: 0.5em;
   }
-  .acf-input .acf-error-message:after {
+:where(acf-frontend-form) .acf-input .acf-error-message:after {
     content: "";
     display: block;
     width: 0.5em;
     height: 0.5em;
+    background: hsla(10, 100%, 55%, 1);
     background: var(--acfff-red);
     transform: rotate(-45deg);
     margin-top: -0.3em;
     margin-left: 1.5em;
   }
-}
 
 /* assets-src/css/acfff.css */
 :where(acf-frontend-form *:not([inline]):not(:defined)) {
   display: block;
 }
-:where(acf-frontend-form) {
-  .acf-input {
+:where(acf-frontend-form) .acf-input {
     position: relative;
   }
-  .acfff\:locked {
+:where(acf-frontend-form) .acfff\:locked {
     pointer-events: none;
   }
-  .acf-field textarea {
+:where(acf-frontend-form) .acf-field textarea {
     resize: none;
   }
-  .acf-ajax-response {
+:where(acf-frontend-form) .acf-ajax-response {
+    background: hsla(139, 100%, 42%, 1);
     background: var(--acfff-green);
   }
-  .acf-ajax-response.is--error {
+:where(acf-frontend-form) .acf-ajax-response.is--error {
+    background: hsla(10, 100%, 55%, 1);
     background: var(--acfff-red);
   }
-  .acf-field-repeater > .acf-input > .acf-notice.-warning.-dismiss {
+:where(acf-frontend-form) .acf-field-repeater > .acf-input > .acf-notice.-warning.-dismiss {
     display: none;
   }
-  .acf-field-image:not(.has-value) .show-if-value,
-  .acf-field-file:not(.has-value) .show-if-value {
+:where(acf-frontend-form) .acf-field-image:not(.has-value) .show-if-value,:where(acf-frontend-form) .acf-field-file:not(.has-value) .show-if-value {
     display: none;
   }
-}
+
 /*# sourceMappingURL=acfff.css.map */
