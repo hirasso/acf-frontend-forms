@@ -60,10 +60,7 @@ final class Setup
                 'submit_value' => __('Send'),
                 'return' => false
             ])
-            ->ajax(
-                enabled: true,
-                waitAfterSubmit: 2000
-            )
+            ->ajax(enabled: true)
             ->debug() ?>
         </div>
 

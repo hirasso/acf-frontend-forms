@@ -12,7 +12,7 @@ final class Form
 {
     protected readonly JSOptions $jsOptions;
     protected bool $wrap = true;
-    protected bool $maxlength = true;
+    protected bool $maxlengthInfo = true;
 
     /** @param array<string, mixed> $args */
     public function __construct(
@@ -30,41 +30,14 @@ final class Form
         ?bool $resetAfterSubmit = null,
         ?bool $submitOnChange = null,
     ): self {
+        $params = (new ReflectionMethod(AjaxOptions::class, '__construct'))->getParameters();
+        $args = \array_filter(\func_get_args(), fn ($arg) => !\is_null($arg));
 
-        foreach ($this->getArguments('ajax', \func_get_args()) as $arg => $value) {
-            if (\is_null($value)) {
-                continue;
-            }
-            $this->jsOptions->ajax->$arg = $value;
+        foreach ($args as $position => $value) {
+            $this->jsOptions->ajax->{$params[$position]->name} = $value;
         }
 
         return $this;
-    }
-
-    /**
-     * Get provided arguments for a function:
-     *
-     * [
-     *   "arg1" => true,
-     *   "arg2" => "value"
-     * ]
-     *
-     * @param array<int, mixed> $args
-     * @return array<string, mixed>
-     */
-    protected function getArguments(string $funcName, array $args): array
-    {
-        $reflection = new ReflectionMethod(self::class, $funcName);
-        $parameters = $reflection->getParameters();
-
-        $result = [];
-
-        foreach ($args as $index => $value) {
-            $param = $parameters[$index];
-            $result[$param->name] = $value;
-        }
-
-        return $result;
     }
 
     /**
@@ -77,9 +50,12 @@ final class Form
         return $this;
     }
 
-    public function maxlength(): self
+    /**
+     *
+     */
+    public function maxlengthInfo(): self
     {
-        $this->maxlength = true;
+        $this->maxlengthInfo = true;
         return $this;
     }
 
@@ -163,7 +139,7 @@ final class Form
      */
     public function render_max_length_info(array $field): void
     {
-        if (!$this->maxlength) {
+        if (!$this->maxlengthInfo) {
             return;
         }
 
