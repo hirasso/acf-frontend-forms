@@ -14,7 +14,7 @@
     "prepare": "husky",
     "make-pot": "tools/make-pot.sh",
     "mkdirs": "mkdir -p assets",
-    "build:js": "esbuild assets-src/*.ts --outdir=assets --sourcemap --target=es2017 --bundle",
+    "build:js": "esbuild assets-src/*.ts --outdir=assets --sourcemap --target=es2017 --bundle --loader:.svg=file",
     "watch:js": "pnpm build:js --watch",
     "watch": "pnpm mkdirs; pnpm watch:js",
     "build:css": "postcss assets/*.css --replace",
@@ -38,9 +38,6 @@
     "test:e2e:dev": "PLAYWRIGHT_ENV=dev pnpm test:e2e --ui",
     "test:e2e:install": "pnpm exec playwright install --with-deps"
   },
-  "sideEffects": [
-    "*.svg"
-  ],
   "dependencies": {
     "autosize": "^4.0.2",
     "es-toolkit": "^1.43.0",

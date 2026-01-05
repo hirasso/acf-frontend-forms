@@ -8,6 +8,7 @@ import { register } from "./js/FrontendFormElement.js";
 import FileInput from "./js/FileInput.js";
 import MaxLength from "./js/MaxLength.js";
 import DropZone from "./js/DropZone.js";
+import feather from "feather-icons";
 
 import autosize from "autosize";
 
@@ -72,6 +73,7 @@ window.acfff = {
 
     acf.addAction("append", ($el) => {
       adjustRepeater($el.closest(".acf-repeater"), "append");
+      adjustRepeater($el.find(".acf-repeater"), "append");
     });
   }
 
@@ -98,11 +100,21 @@ window.acfff = {
     if (!$repeater.length) {
       return;
     }
+    console.log($repeater);
+    const plusIcon = feather.icons["plus-circle"].toSvg();
+    const minusIcon = feather.icons["minus-circle"].toSvg();
+
     // adjust disabled class
     const repeater = acf.get_data<ACFRepeaterData>($repeater);
     const $rows = $repeater.find(".acf-row:not(.acf-clone)");
     const $lastRow = $rows.last();
     const $addRow = $lastRow.find('[data-event="add-row"]');
+
+    $repeater.find('[data-event="add-row"]').html(plusIcon);
+    $repeater.find('[data-event="remove-row"]').html(minusIcon);
+    $repeater.find('[data-event="duplicate-row"]').remove();
+    $repeater.find('.acf-row-handle [data-event="add-row"]').remove();
+
 
     $addRow.toggleClass(
       "acff:disabled",

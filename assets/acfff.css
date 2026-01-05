@@ -1,8 +1,141 @@
-/**
- * Base Theme
- */
+/* assets-src/css/inc/vars.css */
+:root {
+  --acfff-black: #000;
+  --acfff-white: #fff;
+  --acfff-red: hsla(10, 100%, 55%, 1);
+  --acfff-green: hsla(139, 100%, 42%, 1);
+  --acfff-blue: hsla(200, 100%, 50%, 1);
+  --acfff-border-style: 2px solid;
+}
+
+/* assets-src/css/inc/dropzone.css */
+.acfff-dropzone {
+  position: relative;
+}
+.acfff-dropzone .acf-image-uploader.is-dragover:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+}
+.acfff-dropzone .acf-image-uploader {
+  position: relative;
+  height: 0;
+  padding-bottom: 63%;
+}
+.acfff-dropzone .acfff-instructions {
+  position: absolute !important;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.acfff-dropzone .acfff-instructions__body {
+  color: rgba(0, 0, 0, 0.5);
+}
+.acfff-dropzone .acf-label .description {
+  text-transform: none;
+  margin: 0;
+}
+.acfff-dropzone:not(.has-value) .show-if-value {
+  display: none;
+}
+.acfff-dropzone .image-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  background-position: center;
+  z-index: 2;
+  max-width: none !important;
+}
+.acfff-dropzone .image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.acfff-dropzone .acf-actions {
+  display: block;
+  pointer-events: all;
+}
+.acfff-dropzone [data-name=remove] {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none !important;
+  transform: translate3d(50%, -50%, 0);
+}
+.acfff-dropzone [data-name=remove] svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate3d(-50%, -50%, 0);
+  fill: var(--acfff-white);
+  stroke-width: 1.5px;
+}
+.acfff-dropzone input[type=file] {
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+/* assets-src/css/inc/error-message.css */
 :where(acf-frontend-form) {
-  *,*:before,*:after {
+  .acf-temp-remove {
+    display: none;
+  }
+  .acf-error-message p {
+    background: var(--acfff-red);
+    margin: 0;
+    font-size: 0.8em;
+    letter-spacing: 0.05em;
+    padding: 0.55em 0.7em 0.55em;
+    color: var(--acfff-white);
+  }
+  .acf-input .acf-error-message {
+    display: block;
+    pointer-events: none;
+    z-index: 4;
+    margin-bottom: 0.5em;
+  }
+  .acf-input .acf-error-message:after {
+    content: "";
+    display: block;
+    width: 0.5em;
+    height: 0.5em;
+    background: var(--acfff-red);
+    transform: rotate(-45deg);
+    margin-top: -0.3em;
+    margin-left: 1.5em;
+  }
+}
+
+/* assets-src/css/inc/theme.css */
+:where(acf-frontend-form) {
+  *,
+  *:before,
+  *:after {
     box-sizing: border-box;
   }
   .acf-hidden {
@@ -11,7 +144,6 @@
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px #fff inset;
   }
-
   .acf-form {
     margin: 0;
     border-left: var(--acfff-border-style);
@@ -27,8 +159,7 @@
     border-top: var(--acfff-border-style);
     position: relative;
   }
-
-  [data-type="group"] .acf-field {
+  [data-type=group] .acf-field {
     border-top: 0;
     width: 50%;
   }
@@ -57,7 +188,7 @@
   .has-value .acf-input {
     top: 0.35rem;
   }
-  [data-type="group"] > .acf-label {
+  [data-type=group] > .acf-label {
     position: relative;
     padding: 0.5rem 1rem 0.4rem;
     border-bottom: var(--acfff-border-style);
@@ -65,29 +196,25 @@
     opacity: 1;
     font-style: italic;
   }
-
-  [data-name="date"] {
+  [data-name=date] {
     width: 100%;
   }
-
-  [data-type="group"] .acf-field:not(:last-child) {
+  [data-type=group] .acf-field:not(:last-child) {
     border-right: var(--acfff-border-style);
   }
-
   .acf-required {
     font-size: 0.8em !important;
     position: relative;
     top: -0.2em;
   }
-
   .acf-input input,
   .acf-input textarea,
   .acf-ajax-response,
   .acf-form-submit input,
   .acf-label,
-  [data-type="select"] select,
-  [data-type="select"] .acf-input:before,
-  [data-type="image"] .acf-input,
+  [data-type=select] select,
+  [data-type=select] .acf-input:before,
+  [data-type=image] .acf-input,
   .acf-row-handle.order span {
     display: block;
     width: 100%;
@@ -108,13 +235,12 @@
     white-space: normal;
     line-height: 1.3;
   }
-  [data-type="select"] .acf-input:before {
+  [data-type=select] .acf-input:before {
     content: "-";
     opacity: 0;
     display: block;
   }
-
-  [data-type="select"]:after {
+  [data-type=select]:after {
     content: "";
     display: block;
     width: 0.5em;
@@ -129,8 +255,7 @@
     z-index: 10;
     pointer-events: none;
   }
-
-  [data-type="select"] select {
+  [data-type=select] select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -144,10 +269,9 @@
     opacity: 0;
     cursor: pointer;
   }
-  [data-type="select"].has-value select {
+  [data-type=select].has-value select {
     opacity: 1;
   }
-
   .ui-datepicker {
     border: var(--acfff-border-style) black !important;
     padding: 5px 0 0 !important;
@@ -184,7 +308,7 @@
   }
   .ui-datepicker-prev:before,
   .ui-datepicker-next:before {
-    content: "→";
+    content: "\2192";
     display: block;
     position: relative;
     text-align: center;
@@ -249,15 +373,13 @@
     color: #fff !important;
     background: black !important;
   }
-
-  .acf-form input[type="submit"] {
+  .acf-form input[type=submit] {
     cursor: pointer;
   }
-  .acf-form input[type="submit"]:hover {
+  .acf-form input[type=submit]:hover {
     background: black;
     color: #fff;
   }
-
   .acf-tooltip {
     position: absolute;
     display: none;
@@ -272,13 +394,9 @@
     border-bottom: var(--acfff-border-style);
     overflow: hidden;
   }
-
   .acf-error-message {
     display: none;
   }
-  /**
- * Fix for ACF Error-Removal
- */
   .acf-temp-remove {
     display: none;
   }
@@ -332,7 +450,6 @@
     background: var(--acfff-green, lime);
     position: absolute;
     top: 100%;
-
     left: 0;
     transition: top 200ms;
     text-align: center;
@@ -340,7 +457,6 @@
   .acf-ajax-response.is--error {
     background: var(--acffff-red, red);
   }
-
   .show-ajax-response .acf-ajax-response {
     top: 0;
     transition: none;
@@ -365,3 +481,111 @@
     display: none;
   }
 }
+
+/* assets-src/css/inc/repeaters.css */
+:where(acf-frontend-form .acf-field-repeater) {
+  position: relative;
+  > .acf-label {
+    display: none;
+  }
+  .acf-fields {
+    border: none;
+    flex: 1;
+  }
+  .acf-field {
+    border: none;
+    width: 100%;
+  }
+  .acf-clone {
+    display: none !important;
+  }
+  .acf-table,
+  .acf-table tbody {
+    width: 100%;
+    display: block;
+  }
+  .acf-table tr {
+    position: relative;
+    display: block;
+    border-bottom: var(--acfff-border-style);
+  }
+  .acf-table tr:last-child {
+    border-bottom: 0;
+  }
+  .acf-table td {
+    display: block;
+    position: relative;
+  }
+  .acf-row-handle.order {
+    display: none;
+  }
+  .acf-row-handle.remove {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex !important;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+    padding: 0 !important;
+    width: 60px;
+  }
+  [data-event] {
+    display: relative;
+    flex: none;
+    width: 1.7em;
+    height: 1.7em;
+    background: none !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100px;
+    z-index: 3;
+    margin-left: 0.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .acf-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .acf-actions [data-event=add-row].disabled {
+    display: none !important;
+  }
+  .acf-tooltip {
+    position: absolute;
+    display: none;
+  }
+}
+
+/* assets-src/css/acfff.css */
+:where(acf-frontend-form *:not([inline]):not(:defined)) {
+  display: block;
+}
+:where(acf-frontend-form) {
+  .acf-input {
+    position: relative;
+  }
+  .acfff\:locked {
+    pointer-events: none;
+  }
+  .acf-field textarea {
+    resize: none;
+  }
+  .acf-ajax-response {
+    background: var(--acfff-green);
+  }
+  .acf-ajax-response.is--error {
+    background: var(--acfff-red);
+  }
+  .acf-field-repeater > .acf-input > .acf-notice.-warning.-dismiss {
+    display: none;
+  }
+  .acf-field-image:not(.has-value) .show-if-value,
+  .acf-field-file:not(.has-value) .show-if-value {
+    display: none;
+  }
+}
+/*# sourceMappingURL=acfff.css.map */
