@@ -15,6 +15,9 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import AdmZip from "adm-zip";
+import { createLogger, emptyDirectory } from "./helpers.js";
+
+const logger = createLogger('[install-acf-pro]');
 
 /**
  * Fetches the download URL of the latest GitHub release asset matching a pattern.
@@ -76,27 +79,13 @@ async function extractZip(zipPath, targetDir) {
   zip.extractAllTo(targetDir, true);
 }
 
-/**
- * Empties a directory by removing all its contents while keeping the directory itself.
- *
- * @param {string} dirPath - Path to the directory to empty
- */
-async function emptyDirectory(dirPath) {
-  if (fs.existsSync(dirPath)) {
-    const entries = await fs.promises.readdir(dirPath);
-    await Promise.all(
-      entries.map((entry) =>
-        fs.promises.rm(path.join(dirPath, entry), { recursive: true, force: true })
-      )
-    );
-  }
-}
+
 
 (async () => {
   try {
     const targetDir = process.argv[2];
     if (!targetDir) {
-      console.error("Error: You must provide a target directory.");
+      logger.error("Error: You must provide a target directory.");
       process.exit(1);
     }
 
@@ -107,7 +96,7 @@ async function emptyDirectory(dirPath) {
     );
 
     if (!url) {
-      console.error("No matching asset found.");
+      logger.error("No matching asset found.");
       process.exit(1);
     }
 
@@ -115,25 +104,25 @@ async function emptyDirectory(dirPath) {
     const acfProDir = path.join(targetDir, "advanced-custom-fields-pro");
 
     // Download the zip
-    console.log("Downloading:", url);
+    logger.log("Downloading:", url);
     await downloadFile(url, zipFile);
 
     // Empty existing installation if present
     if (fs.existsSync(acfProDir)) {
-      console.log("Emptying existing installation:", acfProDir);
+      logger.log("Emptying existing installation:", acfProDir);
       await emptyDirectory(acfProDir);
     }
 
     // Extract the zip
-    console.log("Extracting to:", targetDir);
+    logger.log("Extracting to:", targetDir);
     await extractZip(zipFile, targetDir);
 
     // Remove zip after extraction
     await fs.promises.unlink(zipFile);
 
-    console.log("Done!");
+    logger.log("Done!");
   } catch (err) {
-    console.error("Error:", err);
+    logger.error("Error:", err);
     process.exit(1);
   }
 })();
