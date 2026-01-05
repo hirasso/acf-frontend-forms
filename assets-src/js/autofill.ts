@@ -1,20 +1,21 @@
+import { createLogger } from "./helpers.js";
+
 const $ = window.jQuery;
 
-export function autofill(id = 0) {
-  let $forms = $(".acf-form");
+export function autofill(values: {}, debug: boolean = true) {
+  const $forms = $(".acf-form");
+  const logger = debug ? createLogger() : undefined;
 
   if (!$forms.length) {
     return false;
   }
 
-  const values = window.acfffAutofillValues?.[id];
-
   if (typeof values !== "object") {
-    console.warn("[acfff] window.acfffAutofillValues is not defined");
+    logger?.warn("[acfff] please provide a values object");
     return false;
   }
 
-  console.log("[acfff] Autofilling form...");
+  logger?.log("[acfff] Autofilling form...");
 
   $forms.each((i, el) => {
     let $form = $(el);

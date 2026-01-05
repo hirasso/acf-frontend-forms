@@ -106,7 +106,7 @@ window.acfff = {
 
     $addRow.toggleClass(
       "acff:disabled",
-      repeater.max > 0 && $rows.length >= repeater.max,
+      repeater.max > 0 && $rows.length >= repeater.max
     );
 
     if (action === "append") focusFirstInput($lastRow);

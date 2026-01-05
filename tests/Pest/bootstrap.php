@@ -17,7 +17,7 @@ require_once \getenv('WP_PHPUNIT__DIR') . '/includes/functions.php';
 /** Manually load the plugin being tested. */
 \tests_add_filter('muplugins_loaded', function () use ($pluginsDir) {
     // require ACF, which is a dependency of ACFML
-    require_once("$pluginsDir/advanced-custom-fields/acf.php");
+    require_once("$pluginsDir/advanced-custom-fields-pro/acf.php");
     // require the main plugin file
     require_once("$pluginsDir/acf-frontend-forms/acf-frontend-forms.php");
     // don't autamatically load acfml in tests

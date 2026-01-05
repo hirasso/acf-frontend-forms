@@ -3,10 +3,14 @@
 namespace Hirasso\ACFFF\Tests\E2E;
 
 use Exception;
+use Extended\ACF\Fields\FlexibleContent;
+use Extended\ACF\Fields\Image;
+use Extended\ACF\Fields\Layout;
+use Extended\ACF\Fields\Repeater;
 use Extended\ACF\Fields\Text;
 use Extended\ACF\Fields\Textarea;
+use Extended\ACF\Fields\URL;
 use Extended\ACF\Location;
-use Hirasso\ACFFF\Form\AjaxOptions;
 use WP_Post;
 
 /** Exit if accessed directly */
@@ -56,22 +60,21 @@ final class Setup
         <div style='margin-inline: auto;'>
             <?= \acfff()->form([
                 'field_groups' => [$this->fieldGroup['key']],
-                'updated_message' => __('Submission received'),
-                'submit_value' => __('Send'),
-                'return' => false
+                'updated_message' => \__('Submission received'),
+                'submit_value' => \__('Send'),
+                'return' => false,
+                'post_id' => false,
             ])
             ->ajax(enabled: true)
             ->debug() ?>
         </div>
 
         <script>
-            window.acfffAutofillValues = [
-                {
-                    first_name: "Jane",
-                    last_name: "Doe",
-                    message: "Hello does this work?"
-                },
-            ]
+            // window.acfff.autofill({
+            //     first_name: "Jane",
+            //     last_name: "Doe",
+            //     message: "Hello does this work?"
+            // });
         </script>
 
         <?php return \ob_get_clean();
@@ -142,6 +145,26 @@ final class Setup
                     ->required(),
 
                 Textarea::make('Message'),
+
+                Image::make('An Image'),
+
+                FlexibleContent::make('Flexible Content')
+                    ->layouts([
+                        Layout::make('An Image')
+                            ->fields([
+                                Image::make('Image')
+                                    ->required(),
+                                Text::make('Caption')
+                                    ->required(),
+                            ])
+                    ]),
+
+                Repeater::make('Some Links')
+                    ->fields([
+                        URL::make('Link')
+                            ->required(),
+                    ])
+                    ->minRows(1),
 
             ],
             'location' => [

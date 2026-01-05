@@ -269,20 +269,41 @@
     }
   });
 
+  // assets-src/js/helpers.ts
+  var prefix = "acfff";
+  function nextTick() {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
+  }
+  function createLogger() {
+    const style = [
+      "background: linear-gradient(to right, #a960ee, #f78ed4)",
+      "color: white",
+      "padding-inline: 4px",
+      "border-radius: 2px",
+      "font-family: monospace"
+    ].join(";");
+    return {
+      log: (...args) => console.log(`%c${prefix}`, style, ...args),
+      warn: (...args) => console.warn(`%c${prefix}`, style, ...args),
+      error: (...args) => console.error(`%c${prefix}`, style, ...args)
+    };
+  }
+
   // assets-src/js/autofill.ts
   var $ = window.jQuery;
-  function autofill(id = 0) {
-    var _a;
-    let $forms = $(".acf-form");
+  function autofill(values, debug = true) {
+    const $forms = $(".acf-form");
+    const logger = debug ? createLogger() : void 0;
     if (!$forms.length) {
       return false;
     }
-    const values = (_a = window.acfffAutofillValues) == null ? void 0 : _a[id];
     if (typeof values !== "object") {
-      console.warn("[acfff] window.acfffAutofillValues is not defined");
+      logger == null ? void 0 : logger.warn("[acfff] please provide a values object");
       return false;
     }
-    console.log("[acfff] Autofilling form...");
+    logger == null ? void 0 : logger.log("[acfff] Autofilling form...");
     $forms.each((i, el) => {
       let $form = $(el);
       $form.find(".fill-password-suggestion").trigger("click");
@@ -452,28 +473,6 @@
     debounced.flush = flush;
     signal == null ? void 0 : signal.addEventListener("abort", cancel, { once: true });
     return debounced;
-  }
-
-  // assets-src/js/helpers.ts
-  var prefix = "acfff";
-  function nextTick() {
-    return new Promise((resolve) => {
-      requestAnimationFrame(() => requestAnimationFrame(resolve));
-    });
-  }
-  function createLogger() {
-    const style = [
-      "background: linear-gradient(to right, #a960ee, #f78ed4)",
-      "color: white",
-      "padding-inline: 4px",
-      "border-radius: 2px",
-      "font-family: monospace"
-    ].join(";");
-    return {
-      log: (...args) => console.log(`%c${prefix}`, style, ...args),
-      warn: (...args) => console.warn(`%c${prefix}`, style, ...args),
-      error: (...args) => console.error(`%c${prefix}`, style, ...args)
-    };
   }
 
   // assets-src/js/FrontendForm.ts

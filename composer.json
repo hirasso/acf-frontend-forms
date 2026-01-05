@@ -32,12 +32,12 @@
     "pestphp/pest": "^1.23",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
+    "pronamic/advanced-custom-fields-pro": "^6.7",
     "roots/wordpress": "^6.8",
     "symfony/var-dumper": "^7.1",
     "vinkla/extended-acf": "^14.6",
     "wp-cli/wp-cli": "^2.12",
     "wp-phpunit/wp-phpunit": "^6.9",
-    "wpackagist-plugin/advanced-custom-fields": "^6.7",
     "wpackagist-plugin/classic-editor": "^1.6",
     "wpackagist-theme/twentytwentyfive": "^1.4",
     "yoast/wp-test-utils": "^1.2"
@@ -50,6 +50,18 @@
         "wpackagist-plugin/*",
         "wpackagist-theme/*"
       ]
+    },
+    "acf-pro": {
+      "type": "package",
+      "package": {
+        "name": "pronamic/advanced-custom-fields-pro",
+        "version": "6.7.0.2",
+        "type": "wordpress-plugin",
+        "dist": {
+          "url": "https://github.com/pronamic/advanced-custom-fields-pro/releases/download/v6.7.0.2/advanced-custom-fields-pro.6.7.0.2.zip",
+          "type": "zip"
+        }
+      }
     }
   },
   "config": {

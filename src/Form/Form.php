@@ -81,7 +81,10 @@ final class Form
         /** Buffer the acf_form() */
         \ob_start();
         $this->add_hooks();
-        \acf_form($this->args);
+        \acf_form([
+            ...$this->args,
+            'uploader' => 'basic',
+        ]);
         $this->remove_hooks();
         $vanilla_acf_form = \trim(\ob_get_clean() ?: '');
 
