@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4edcb61faf34d17484e4e6708cd6827",
+    "content-hash": "8431d0b07315692fd74202697521898f",
     "packages": [
         {
             "name": "composer/installers",
@@ -1833,15 +1833,6 @@
                 }
             ],
             "time": "2025-12-06T07:45:52+00:00"
-        },
-        {
-            "name": "pronamic/advanced-custom-fields-pro",
-            "version": "6.7.0.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/pronamic/advanced-custom-fields-pro/releases/download/v6.7.0.2/advanced-custom-fields-pro.6.7.0.2.zip"
-            },
-            "type": "wordpress-plugin"
         },
         {
             "name": "psr/container",
