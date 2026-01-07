@@ -3,9 +3,7 @@
 namespace Hirasso\ACFFF\Tests\E2E;
 
 use Exception;
-use Extended\ACF\Fields\FlexibleContent;
 use Extended\ACF\Fields\Image;
-use Extended\ACF\Fields\Layout;
 use Extended\ACF\Fields\Repeater;
 use Extended\ACF\Fields\Text;
 use Extended\ACF\Fields\Textarea;
@@ -69,7 +67,7 @@ final class Setup
                 'return' => false,
                 'post_id' => false,
             ])
-            ->ajax(enabled: true)
+            ->ajax(true)
             ->debug() ?>
         </div>
 

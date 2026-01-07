@@ -15,12 +15,12 @@ echo acfff()->form([
   'field_groups' => ['group_1234r51245'],
 ])
 /** Submit the form via ajax */
-->ajax(new AjaxOptions(
+->ajax(
   enabled: true,
   waitAfterSubmit: 1500,
   resetAfterSubmit: true,
   submitOnChange: false,
-))
+)
 /** Activate debug logging to the console */
 ->debug();
 ```

@@ -2,8 +2,6 @@
 
 namespace Hirasso\ACFFF\Form;
 
-use ReflectionMethod;
-
 /**
  * Render an ACF Frontend Form
  * - The form will be wrapped in a custom element `<acf-frontend-form></acf-frontend-form>`
@@ -25,17 +23,18 @@ final class Form
      * Set AJAX options for this form
      */
     public function ajax(
-        ?bool $enabled = null,
-        ?int $waitAfterSubmit = null,
-        ?bool $resetAfterSubmit = null,
-        ?bool $submitOnChange = null,
+        bool $enabled,
+        ?int $waitAfterSubmit = 1000,
+        ?bool $resetAfterSubmit = false,
+        ?bool $submitOnChange = false
     ): self {
-        $params = (new ReflectionMethod(AjaxOptions::class, '__construct'))->getParameters();
-        $args = \array_filter(\func_get_args(), fn ($arg) => !\is_null($arg));
 
-        foreach ($args as $position => $value) {
-            $this->jsOptions->ajax->{$params[$position]->name} = $value;
-        }
+        $this->jsOptions->ajax = new AjaxOptions(
+            $enabled,
+            $waitAfterSubmit,
+            $resetAfterSubmit,
+            $submitOnChange
+        );
 
         return $this;
     }
