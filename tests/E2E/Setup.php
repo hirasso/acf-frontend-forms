@@ -150,17 +150,6 @@ final class Setup
 
                 Image::make('An Image'),
 
-                // FlexibleContent::make('Flexible Content')
-                //     ->layouts([
-                //         Layout::make('An Image')
-                //             ->fields([
-                //                 Image::make('Image')
-                //                     ->required(),
-                //                 Text::make('Caption')
-                //                     ->required(),
-                //             ])
-                //     ]),
-
                 Repeater::make('Some Links')
                     ->fields([
                         URL::make('Link')
