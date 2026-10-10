@@ -28,4 +28,4 @@ acf-frontend-forms
 **/playwright/.cache
 **/playwright/.auth
 playwright-results.json
-.wp-env.override.json
+.wp-env*.override.json

@@ -31,7 +31,7 @@
     "guzzlehttp/guzzle": "^7.10",
     "illuminate/collections": "^12.44",
     "laravel/pint": "^1.25",
-    "pestphp/pest": "^1.23",
+    "pestphp/pest": "^3.8",
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan": "^2.1",
     "roots/wordpress": "^6.8",
@@ -41,7 +41,7 @@
     "wp-phpunit/wp-phpunit": "^6.9",
     "wpackagist-plugin/classic-editor": "^1.6",
     "wpackagist-theme/twentytwentyfive": "^1.4",
-    "yoast/wp-test-utils": "^1.2"
+    "yoast/phpunit-polyfills": "^4.0"
   },
   "repositories": {
     "wpackagist": {
@@ -62,6 +62,9 @@
       "pestphp/pest-plugin": true,
       "phpstan/extension-installer": true,
       "roots/wordpress-core-installer": true
+    },
+    "platform": {
+      "php": "8.2"
     }
   },
   "extra": {
@@ -80,10 +83,13 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "tools/install-acf-pro vendor/.wp/plugins"
+      "tools/install-acf-pro vendor/.wp/plugins",
+      "tools/sync-wp-env-core.sh"
     ],
     "post-update-cmd": [
-      "tools/install-acf-pro vendor/.wp/plugins"
-    ]
+      "tools/install-acf-pro vendor/.wp/plugins",
+      "tools/sync-wp-env-core.sh"
+    ],
+    "test": "pest --no-coverage"
   }
 }

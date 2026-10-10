@@ -26,3 +26,14 @@ require_once \getenv('WP_PHPUNIT__DIR') . '/includes/functions.php';
 
 /** Start up the WP testing environment. */
 require_once \getenv('WP_PHPUNIT__DIR') . '/includes/bootstrap.php';
+
+/**
+ * wp-phpunit's expectDeprecated() calls PHPUnit\Util\Test::parseTestMethodAnnotations(),
+ * removed in PHPUnit 10+. No @expectedDeprecated annotations are used here.
+ */
+class TestCase extends \WP_UnitTestCase
+{
+    public function expectDeprecated(): void
+    {
+    }
+}
