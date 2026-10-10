@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: ACF Frontend Forms
- * Version: 0.0.0
+ * Version: 1.0.0
  * Author: Rasso Hilber
  * Description: Enhancments for Advanced Custom Fields's acf_form() 📚
  * Author URI: https://rassohilber.com
