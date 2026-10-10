@@ -115,10 +115,9 @@ window.acfff = {
     $repeater.find('[data-event="duplicate-row"]').remove();
     $repeater.find('.acf-row-handle [data-event="add-row"]').remove();
 
-
     $addRow.toggleClass(
       "acff:disabled",
-      repeater.max > 0 && $rows.length >= repeater.max
+      repeater.max > 0 && $rows.length >= repeater.max,
     );
 
     if (action === "append") focusFirstInput($lastRow);

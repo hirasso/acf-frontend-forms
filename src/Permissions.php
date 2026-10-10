@@ -3,7 +3,7 @@
 namespace Hirasso\ACFFF;
 
 /** Exit if accessed directly */
-if (! defined('ABSPATH')) {
+if (! \defined('ABSPATH')) {
     exit;
 }
 
@@ -16,26 +16,26 @@ class Permissions
     {
         $this->prefix = $this->acfff->get_prefix();
 
-        add_filter('acf/settings/capability', [$this, 'acf_setting_capability']);
-        add_filter('acf/settings/show_admin', [$this, 'acf_setting_show_admin']);
-        add_filter('acf/get_field_types', [$this, 'restrict_field_types']);
-        add_action('admin_init', [$this, 'grant_frontend_form_cap_to_admins']);
-        add_filter('admin_body_class', [$this, 'admin_body_class']);
+        \add_filter('acf/settings/capability', [$this, 'acf_setting_capability']);
+        \add_filter('acf/settings/show_admin', [$this, 'acf_setting_show_admin']);
+        \add_filter('acf/get_field_types', [$this, 'restrict_field_types']);
+        \add_action('admin_init', [$this, 'grant_frontend_form_cap_to_admins']);
+        \add_filter('admin_body_class', [$this, 'admin_body_class']);
 
-        add_action('acf/field_group/render_additional_group_settings', [$this, 'render_field_group_settings']);
-        add_action('acf/field_group/admin_head', [$this, 'remove_meta_boxes'], 999, 2);
-        add_action('current_screen', [$this, 'check_current_screen']);
-        add_filter('page_row_actions', [$this, 'row_actions'], 10, 2);
+        \add_action('acf/field_group/render_additional_group_settings', [$this, 'render_field_group_settings']);
+        \add_action('acf/field_group/admin_head', [$this, 'remove_meta_boxes'], 999, 2);
+        \add_action('current_screen', [$this, 'check_current_screen']);
+        \add_filter('page_row_actions', [$this, 'row_actions'], 10, 2);
         // Disabled: fires too late (after meta caps have been mapped already)
         // add_filter('user_has_cap', [$this, 'user_has_cap'], 10, 3);
-        add_filter('map_meta_cap', [$this, 'map_meta_cap'], 10, 4);
-        add_filter('register_post_type_args', [$this, 'register_post_type_args'], 999, 2);
+        \add_filter('map_meta_cap', [$this, 'map_meta_cap'], 10, 4);
+        \add_filter('register_post_type_args', [$this, 'register_post_type_args'], 999, 2);
 
-        add_filter('bulk_actions-edit-acf-field-group', [$this, 'restrict_bulk_actions'], 20, 1);
-        add_action('acf/init', [$this, 'add_settings_page_fields']);
+        \add_filter('bulk_actions-edit-acf-field-group', [$this, 'restrict_bulk_actions'], 20, 1);
+        \add_action('acf/init', [$this, 'add_settings_page_fields']);
 
-        add_action("acf/prepare_field/name={$this->prefix}_allowed_fields", [$this, 'prepare_field_allowed_fields']);
-        add_action("acf/render_field/name={$this->prefix}_allowed_fields", [$this, 'render_field_allowed_fields']);
+        \add_action("acf/prepare_field/name={$this->prefix}_allowed_fields", [$this, 'prepare_field_allowed_fields']);
+        \add_action("acf/render_field/name={$this->prefix}_allowed_fields", [$this, 'render_field_allowed_fields']);
 
         // add_filter('acf/settings/save_json', [$this, 'acf_save_json']);
 
@@ -48,14 +48,14 @@ class Permissions
     {
         global $pagenow;
 
-        $screen = get_current_screen();
+        $screen = \get_current_screen();
         if ($pagenow !== 'post.php' || $screen->id !== 'acf-field-group') {
             return $class;
         }
 
-        $classes = explode(' ', $class);
+        $classes = \explode(' ', $class);
 
-        if ($this->acfff->is_frontend_form(acf_maybe_get_GET('post'))) {
+        if ($this->acfff->is_frontend_form(\acf_maybe_get_GET('post'))) {
             $classes[] = 'is-edit-acf-frontend-form';
         }
 
@@ -72,9 +72,9 @@ class Permissions
      */
     private function get_allowed_frontend_fields(): array
     {
-        $allowed = (array) get_field("{$this->prefix}_allowed_fields", $this->get_settings_page_id());
-        $allowed = apply_filters($this->hook_allowed_fields, $allowed);
-        return is_array($allowed) ? $allowed : [];
+        $allowed = (array) \get_field("{$this->prefix}_allowed_fields", $this->get_settings_page_id());
+        $allowed = \apply_filters($this->hook_allowed_fields, $allowed);
+        return \is_array($allowed) ? $allowed : [];
     }
 
     /**
@@ -84,7 +84,7 @@ class Permissions
     {
         $settings_page = $this->acfff->get_settings_page_info();
 
-        acf_add_local_field([
+        \acf_add_local_field([
             'key' => "field_{$this->prefix}_allowed_fields",
             'label' => 'Allowed fields for non-admins',
             'name' => "{$this->prefix}_allowed_fields",
@@ -107,10 +107,10 @@ class Permissions
         /** @var array<string, array{
          *  label: string
          * }> $types */
-        $types = acf_get_field_types_info();
+        $types = \acf_get_field_types_info();
 
         foreach ($types as $key => $field) {
-            if (in_array($key, $never_allow)) {
+            if (\in_array($key, $never_allow)) {
                 continue;
             }
             $choices[$key] = "{$field['label']}";
@@ -130,18 +130,18 @@ class Permissions
             return null;
         }
 
-        if (!has_filter($this->hook_allowed_fields)) {
+        if (!\has_filter($this->hook_allowed_fields)) {
             return $field;
         }
 
         // show allowed fields
-        acf_render_field_wrap([
-            'label' => __('Allowed fields for frontend forms'),
+        \acf_render_field_wrap([
+            'label' => \__('Allowed fields for frontend forms'),
             'instructions' => "Remove the filter <em style='-webkit-user-select: all; user-select:all;'>$this->hook_allowed_fields</em> from your theme to edit fields manually.",
             'type' => 'textarea',
             'readonly' => true,
             'rows' => 2,
-            'value'	=> implode(', ', $this->get_allowed_frontend_fields()),
+            'value'	=> \implode(', ', $this->get_allowed_frontend_fields()),
         ]);
 
         $this->update_settings_field('allowed_fields', $this->get_allowed_frontend_fields());
@@ -162,7 +162,7 @@ class Permissions
      */
     private function get_settings_field(string $name, bool $format): mixed
     {
-        return get_field("{$this->prefix}_{$name}", $this->get_settings_page_id(), $format);
+        return \get_field("{$this->prefix}_{$name}", $this->get_settings_page_id(), $format);
     }
 
     /**
@@ -170,7 +170,7 @@ class Permissions
      */
     private function update_settings_field(string $name, mixed $value): bool
     {
-        return update_field("{$this->prefix}_{$name}", $value, $this->get_settings_page_id());
+        return \update_field("{$this->prefix}_{$name}", $value, $this->get_settings_page_id());
     }
 
     /**
@@ -179,8 +179,8 @@ class Permissions
      */
     public function render_field_allowed_fields(array $field): void
     {
-        acf_render_field_wrap([
-            'label'			=> __('Code Snippet'),
+        \acf_render_field_wrap([
+            'label'			=> \__('Code Snippet'),
             'instructions'	=> 'Put this code snippet in your theme to filter allowed fields programatically',
             'type'			=> 'textarea',
             'readonly'  => true,
@@ -197,7 +197,7 @@ class Permissions
         /** @var array<int, string> $value */
         $value = $this->get_settings_field('allowed_fields', false) ?: [];
 
-        $allowed_fields = implode("', \n    '", $value);
+        $allowed_fields = \implode("', \n    '", $value);
         $snippet = "add_filter('$this->hook_allowed_fields', function(\$fields) {";
         $snippet .= "\n  return [\n    '$allowed_fields',\n  ];";
         $snippet .= "\n});";
@@ -212,7 +212,7 @@ class Permissions
      */
     public function restrict_field_types(array $groups): array
     {
-        if (!$this->acfff->is_frontend_form(acf_maybe_get_GET('post'))) {
+        if (!$this->acfff->is_frontend_form(\acf_maybe_get_GET('post'))) {
             return $groups;
         }
 
@@ -220,8 +220,8 @@ class Permissions
 
         foreach ($groups as $group_name => $group) {
             // https://stackoverflow.com/questions/4260086/php-how-to-use-array-filter-to-filter-array-keys/4260168#4260168
-            $group = array_intersect_key($group, array_flip($allowed));
-            if (count($group)) {
+            $group = \array_intersect_key($group, \array_flip($allowed));
+            if (\count($group)) {
                 $groups[$group_name] = $group;
             } else {
                 unset($groups[$group_name]);
@@ -256,7 +256,7 @@ class Permissions
      */
     private function get_frontend_forms_cap(): string
     {
-        return (string) apply_filters('hirasso/acfff/settings/capability', 'manage_options');
+        return (string) \apply_filters('hirasso/acfff/settings/capability', 'manage_options');
     }
 
     /**
@@ -265,9 +265,9 @@ class Permissions
     public function grant_frontend_form_cap_to_admins(): void
     {
         $cap = $this->get_frontend_forms_cap();
-        $admin = get_role('administrator');
+        $admin = \get_role('administrator');
 
-        if (!array_key_exists($cap, $admin->capabilities)) {
+        if (!\array_key_exists($cap, $admin->capabilities)) {
             $admin->add_cap($cap);
         }
     }
@@ -300,7 +300,7 @@ class Permissions
     */
     public function map_meta_cap(array $user_caps, string $cap, int $user_id, array $args): array
     {
-        $post = get_post($args[0] ?? false);
+        $post = \get_post($args[0] ?? false);
 
         if (!$post) {
             return $user_caps;
@@ -311,7 +311,7 @@ class Permissions
         }
 
         // deny access to acf field groups that aren't frontend forms
-        if (get_post_type($post) === 'acf-field-group' && !$this->acfff->is_frontend_form($post->ID)) {
+        if (\get_post_type($post) === 'acf-field-group' && !$this->acfff->is_frontend_form($post->ID)) {
             $user_caps[] = 'do_not_allow';
         }
 
@@ -330,7 +330,7 @@ class Permissions
         }
 
         foreach ($args['labels'] as $key => $label) {
-            $args['labels'][$key] = str_replace(['Custom Field', 'Field Group'], 'Frontend Form', $label);
+            $args['labels'][$key] = \str_replace(['Custom Field', 'Field Group'], 'Frontend Form', $label);
         }
 
         $super_cap = 'manage_options';
@@ -372,8 +372,8 @@ class Permissions
      */
     public function check_current_screen(): void
     {
-        $screen = get_current_screen();
-        if (!$screen || !in_array($screen->id, ['custom-fields_page_acf-tools', 'custom-fields_page_acf-tools'])) {
+        $screen = \get_current_screen();
+        if (!$screen || !\in_array($screen->id, ['custom-fields_page_acf-tools', 'custom-fields_page_acf-tools'])) {
             return;
         }
         $this->die_if_not_admin('Sorry, you are not allowed to access this page.');
@@ -390,10 +390,10 @@ class Permissions
         $args = [
             'back_link' => true
         ];
-        wp_die(
-            '<h1>' . __('You need a higher level of permission.') . '</h1>' .
-      '<p>' . __($message) . '</p>',
-            __('Permission Denied'),
+        \wp_die(
+            '<h1>' . \__('You need a higher level of permission.') . '</h1>' .
+      '<p>' . \__($message) . '</p>',
+            \__('Permission Denied'),
             $args
         );
     }
@@ -405,8 +405,8 @@ class Permissions
     {
 
         if (!$this->acfff->is_super_admin()) {
-            remove_meta_box('acf-field-group-locations', 'acf-field-group', 'normal');
-            remove_meta_box('acf-field-group-options', 'acf-field-group', 'normal');
+            \remove_meta_box('acf-field-group-locations', 'acf-field-group', 'normal');
+            \remove_meta_box('acf-field-group-options', 'acf-field-group', 'normal');
         }
     }
 
@@ -419,9 +419,9 @@ class Permissions
         $is_frontend_form = !empty($field_group['acfff_is_frontend_form'])
             ? $field_group['acfff_is_frontend_form'] : false;
 
-        acf_render_field_wrap([
+        \acf_render_field_wrap([
             'id'       => 'acfff_acfff_is_frontend_form',
-            'label'			=> __('Frontend Form', 'acf'),
+            'label'			=> \__('Frontend Form', 'acf'),
             'instructions'	=> 'Allow as frontend form?',
             'type'			=> 'true_false',
             'name'			=> 'acfff_is_frontend_form',
@@ -434,8 +434,8 @@ class Permissions
             ? $field_group['acfff_for_post_type']
             : '';
 
-        acf_render_field_wrap([
-            'label' => __('Frontend Form for', 'acf'),
+        \acf_render_field_wrap([
+            'label' => \__('Frontend Form for', 'acf'),
             'instructions' => 'Which post type should this frontend form create?',
             'type' => 'select',
             'name' => 'acfff_for_post_type',
@@ -457,7 +457,7 @@ class Permissions
      */
     private function get_post_type_select_choices(): array
     {
-        $post_types = get_post_types([], 'objects');
+        $post_types = \get_post_types([], 'objects');
         $choices = [];
         foreach ($post_types as $pt => $pt_object) {
             $choices[$pt] = "{$pt_object->labels->name} ({$pt})";

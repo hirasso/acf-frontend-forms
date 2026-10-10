@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "testsEnvironment": false,
+  "phpVersion": "8.3",
+  "port": 22334,
+  "core": "https://wordpress.org/wordpress-6.9.zip",
+  "themes": [
+    "./vendor/.wp/themes/twentytwentyfive"
+  ],
+  "plugins": [
+    ".",
+    "./vendor/.wp/plugins/advanced-custom-fields-pro",
+    "./vendor/.wp/plugins/classic-editor",
+    "./tests/E2E"
+  ],
+  "config": {
+    "WP_DEBUG": true,
+    "ACFFF_WP_ENV": "tests"
+  },
+  "lifecycleScripts": {
+    "afterStart": "./tools/wp-env-test-after-start.sh"
+  }
+}

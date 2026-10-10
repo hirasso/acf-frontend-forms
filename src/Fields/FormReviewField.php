@@ -12,7 +12,7 @@ class FormReviewField extends \acf_field_message
     public function initialize(): void
     {
         $this->name = 'form_review';
-        $this->label = __("Form Review");
+        $this->label = \__("Form Review");
         $this->category = 'layout';
         $this->defaults = [
             'message'		=> '',
@@ -29,7 +29,7 @@ class FormReviewField extends \acf_field_message
     public function prepare_field(?array $field = null): ?array
     {
         // don't display form reviews on admin
-        if (empty($field) || is_admin()) {
+        if (empty($field) || \is_admin()) {
             return null;
         }
         return $field;

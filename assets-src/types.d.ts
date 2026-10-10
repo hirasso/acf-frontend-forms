@@ -72,7 +72,7 @@ export type ACFFindFieldsArgs = Partial<{
   visible: boolean;
   suppressFilters: boolean;
   excludeSubFields: boolean;
-}>
+}>;
 
 /**
  * An ACF Validator instance
@@ -184,26 +184,26 @@ export type ACF = {
    */
   addAction<T extends HTMLElement>(
     action: "remove" | "append",
-    callback: (arg: JQuery<T>) => ACFActionCallbackReturn
+    callback: (arg: JQuery<T>) => ACFActionCallbackReturn,
   ): void;
   addAction(
     action: `validation_${"beginn" | "failure" | "success" | "complete"}`,
     callback: (
       $form: JQuery<HTMLFormElement>,
-      valdation: Record<any, any>
-    ) => ACFActionCallbackReturn
+      valdation: Record<any, any>,
+    ) => ACFActionCallbackReturn,
   ): void;
   addAction(
     action: "submit",
-    callback: ($form: JQuery<HTMLFormElement>) => ACFActionCallbackReturn
+    callback: ($form: JQuery<HTMLFormElement>) => ACFActionCallbackReturn,
   ): void;
   addAction(
     action: `new_field/type=${"image" | "file"}`,
-    callback: (arg: ACFAttachmentField) => ACFActionCallbackReturn
+    callback: (arg: ACFAttachmentField) => ACFActionCallbackReturn,
   ): void;
   addAction(
     action: "new_field" | `new_field/type=${string}`,
-    callback: (arg: ACFField) => ACFActionCallbackReturn
+    callback: (arg: ACFField) => ACFActionCallbackReturn,
   ): void;
 
   /**

@@ -1,28 +1,20 @@
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "testsEnvironment": false,
   "phpVersion": "8.3",
-  "core": "./vendor/.wp/core",
-  "themes": ["./vendor/.wp/themes/twentytwentyfive"],
+  "port": 22333,
+  "core": "https://wordpress.org/wordpress-6.9.zip",
+  "themes": [
+    "./vendor/.wp/themes/twentytwentyfive"
+  ],
   "plugins": [
     ".",
     "./vendor/.wp/plugins/advanced-custom-fields-pro",
     "./vendor/.wp/plugins/classic-editor",
-    "./tests/E2E/bootstrap.php"
+    "./tests/E2E"
   ],
-  "env": {
-    "development": {
-      "port": 22333,
-      "config": {
-        "ACFFF_WP_ENV": "development"
-      }
-    },
-    "tests": {
-      "port": 22334,
-      "config": {
-        "WP_DEBUG": true,
-        "ACFFF_WP_ENV": "tests"
-      }
-    }
+  "config": {
+    "ACFFF_WP_ENV": "development"
   },
   "lifecycleScripts": {
     "afterStart": "./tools/wp-env-after-start.sh"

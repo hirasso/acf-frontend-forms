@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-pnpm run wp-env:cli wp theme activate twentytwentyfive
-pnpm run wp-env:cli wp rewrite structure '/%postname%/' --hard
-pnpm run wp-env:cli wp plugin activate --all
-
-pnpm run wp-env:cli:tests wp theme activate twentytwentyfive
-pnpm run wp-env:cli:tests wp rewrite structure '/%postname%/' --hard
-pnpm run wp-env:cli:tests wp plugin activate --all
+# Each `wp-env run` is a separate docker exec round trip, so batch the commands
+wp-env run cli sh -c "wp theme activate twentytwentyfive \
+  && wp rewrite structure '/%postname%/' --hard \
+  && wp plugin activate --all"

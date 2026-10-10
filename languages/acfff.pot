@@ -1,4 +1,4 @@
-# Copyright (C) 2025 Rasso Hilber
+# Copyright (C) 2026 Rasso Hilber
 # This file is distributed under the GPL-3.0-or-later.
 msgid ""
 msgstr ""
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: acfff\n"
 
 #. Plugin Name of the plugin
@@ -34,30 +34,31 @@ msgstr ""
 msgid "https://rassohilber.com"
 msgstr ""
 
-#: src/ACFFF.php:254
-msgid "Something went wrong, please reload the page and try again"
+#: src/ACFFF.php:258
+msgid "Something went wrong. Please reload the page and try again"
 msgstr ""
 
-#: src/ACFFF.php:280
+#: src/ACFFF.php:284
 msgid "Please fill out this field"
 msgstr ""
 
-#: src/ACFFF.php:281
+#: src/ACFFF.php:285
 msgid "Please select an option"
 msgstr ""
 
-#: src/ACFFF.php:282
+#: src/ACFFF.php:286
 msgid "Please add an image"
 msgstr ""
 
-#: src/ACFFF.php:283
+#: src/ACFFF.php:287
 msgid "Please add a file"
 msgstr ""
 
-#: src/ACFFF.php:815
-msgid "Something went wrong. If the issue persists, please contact the site site administrator."
+#: src/ACFFF.php:819
+msgid "If the issue persists, please contact the site site administrator."
 msgstr ""
 
-#: src/Form/Form.php:131
-msgid "remaining"
+#: src/Form/Form.php:158
+#, php-format
+msgid "%s remaining"
 msgstr ""

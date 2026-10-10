@@ -2,7 +2,9 @@
  * Base Theme
  */
 :where(acf-frontend-form) {
-  *,*:before,*:after {
+  *,
+  *:before,
+  *:after {
     box-sizing: border-box;
   }
   .acf-hidden {
