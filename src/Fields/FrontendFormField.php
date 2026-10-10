@@ -12,7 +12,7 @@ class FrontendFormField extends \acf_field_select
     public function initialize()
     {
         $this->name = 'frontend_form';
-        $this->label = __("Frontend Form");
+        $this->label = \__("Frontend Form");
         $this->category = 'relational';
         $this->defaults = [
             'multiple' 		=> 0,
@@ -42,8 +42,8 @@ class FrontendFormField extends \acf_field_select
     public function render_field_settings(mixed $field): void
     {
         // allow_null
-        acf_render_field_setting($field, [
-            'label'			=> __('Allow Null?', 'acf'),
+        \acf_render_field_setting($field, [
+            'label'			=> \__('Allow Null?', 'acf'),
             'instructions'	=> '',
             'name'			=> 'allow_null',
             'type'			=> 'true_false',
@@ -57,8 +57,8 @@ class FrontendFormField extends \acf_field_select
     public function get_choices(): array
     {
         $choices = [];
-        foreach (acfff()->get_frontend_forms_ids() as $id) {
-            $choices[$id] = get_the_title($id);
+        foreach (\acfff()->get_frontend_forms_ids() as $id) {
+            $choices[$id] = \get_the_title($id);
         }
         return $choices;
     }
@@ -68,7 +68,7 @@ class FrontendFormField extends \acf_field_select
      */
     public function load_value(mixed $value, mixed $post_id, mixed $field): int
     {
-        return intval($value);
+        return \intval($value);
     }
 
 }

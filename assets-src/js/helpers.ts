@@ -1,4 +1,4 @@
-export const prefix = 'acfff';
+export const prefix = "acfff";
 
 /**
  * Wait for the next tick

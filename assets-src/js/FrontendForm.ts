@@ -79,7 +79,7 @@ export class FrontendForm {
     acf.doAction("append", this.$form);
     acf.set(
       "post_id",
-      this.$form.find<HTMLInputElement>("#_acf_post_id").val()
+      this.$form.find<HTMLInputElement>("#_acf_post_id").val(),
     );
     acf.set("screen", "acf_form");
     acf.set("validation", true);
@@ -129,7 +129,10 @@ export class FrontendForm {
    * Validate this form
    */
   validate = (
-    options: Omit<Parameters<typeof acf.validateForm>[0], "form" | "event"> = {}
+    options: Omit<
+      Parameters<typeof acf.validateForm>[0],
+      "form" | "event"
+    > = {},
   ): ACFValidator => {
     const $form = this.$form;
     acf.validateForm({ form: $form, ...options });

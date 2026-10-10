@@ -40,7 +40,7 @@ class ACFFF
      */
     public function add_hooks(): void
     {
-        if (!function_exists('acf_form_head')) {
+        if (!\function_exists('acf_form_head')) {
             return;
         }
 
